@@ -1,0 +1,109 @@
+/* General Container */
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* Hero Section */
+.hero-section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  padding: 15px 20px;
+  background: linear-gradient(135deg, #1693db, #0c7abf);
+  border-radius: 12px;
+  color: white;
+}
+
+.hero-section h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.hero-section h1 span {
+  color: #ffcc00;
+}
+
+.hero-text {
+  flex: 1;
+  padding-right: 20px;
+}
+
+.hero-section img {
+  width: 350px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Features Section */
+.features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin: 50px 0;
+}
+
+.feature-box {
+  flex: 1;
+  min-width: 250px;
+  max-width: 300px;
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.feature-box:hover {
+  transform: translateY(-5px);
+  background: #e0f2ff;
+}
+
+/* How You Can Help Section */
+.app-section {
+  text-align: center;
+  padding: 20px 20px;
+  background: #ffcc00;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.app-section h2 {
+  font-size: 28px;
+}
+
+.contact-section {
+  text-align: center;
+  padding: 40px 20px;
+  background: #f4f4f4;
+  border-radius: 12px;
+  margin-bottom: 100px;
+}
+
+.hero-button {
+  background: #1693db;
+  color: white;
+  font-size: 18px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.hero-button:hover {
+  background: #0c7abf;
+}
+
+/* Contact Section */
+section:last-child {
+  text-align: center;
+  padding: 30px;
+  background: #f9f9f9;
+  border-radius: 10px;
+}

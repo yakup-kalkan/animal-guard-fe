@@ -1,18 +1,18 @@
-.manage-news-form {
+.manage-adoption-form {
   max-width: 800px;
   margin: auto;
   padding: 20px;
 }
 
-.news-form {
+.adoption-form {
   display: flex;
   flex-direction: column;
   gap: 10px;
   margin-bottom: 20px;
 }
 
-.news-form input,
-.news-form textarea {
+.adoption-form input,
+.adoption-form textarea {
   padding: 10px;
   font-size: 16px;
   width: 100%;
@@ -26,20 +26,20 @@
   cursor: pointer;
 }
 
-.manage-news-list {
+.manage-adoption-list {
   max-width: 800px;
   margin: auto;
   padding: 20px;
 }
 
-.news-list {
+.adoption-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
 }
 
-/* News Card */
-.news-card {
+/* Adoption Card */
+.adoption-card {
   background: #fff;
   border-radius: 10px;
   overflow: hidden;
@@ -47,15 +47,24 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.news-card:hover {
+.adoption-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.news-image {
+.adoption-image {
   width: 100%;
   height: auto;
   border-radius: 10px;
+}
+
+/* Adoption Actions */
+.adoption-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-bottom: 15px;
 }
 
 .btn-edit,
@@ -67,14 +76,7 @@
   cursor: pointer;
   transition: background 0.3s ease;
 }
-/* News Actions */
-.news-actions {
-  display: flex;
-  justify-content: space-between;
-  margin-left: 15px;
-  margin-right: 15px;
-  margin-bottom: 15px;
-}
+
 .btn-edit {
   background: #1693db;
   color: white;

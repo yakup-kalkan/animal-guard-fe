@@ -27,7 +27,7 @@ const AdminLayout = () => {
           <h3>Manage Adoptions</h3>
           <p>Approve and review adoptions</p>
         </Link>
-        <Link to="users" className="dashboard-card">
+        <Link to="manage-users" className="dashboard-card">
           <h3>Manage Users</h3>
           <p>View and manage registered users</p>
         </Link>

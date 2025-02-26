@@ -6,7 +6,7 @@ import {
   getNewsById,
   updateNews,
   deleteNews,
-} from "../../../services/NewsApi";
+} from "../../../services/api-service";
 import "./ManageNews.css";
 
 const ManageNews = () => {
@@ -18,18 +18,22 @@ const ManageNews = () => {
     picture: "",
   });
   const [editId, setEditId] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchNews();
   }, []);
 
   const fetchNews = async () => {
+    setLoading(true);
     try {
       const allNews = await getAllNews();
       setNews(allNews);
     } catch (error) {
       toaster.error("An error occurred while pulling the news!");
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -39,6 +43,7 @@ const ManageNews = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       if (editId) {
         await updateNews(editId, formState);
@@ -52,10 +57,13 @@ const ManageNews = () => {
     } catch (error) {
       toaster.error("An error occurred while saving the news!");
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleEdit = async (id) => {
+    setLoading(true);
     try {
       const newsItem = await getNewsById(id);
       setFormState({
@@ -67,10 +75,13 @@ const ManageNews = () => {
     } catch (error) {
       toaster.error("An error occurred while fetching the news item!");
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleDelete = async (id) => {
+    setLoading(true);
     try {
       await deleteNews(id);
       toaster.success("The news was deleted!");
@@ -78,6 +89,8 @@ const ManageNews = () => {
     } catch (error) {
       toaster.error("An error occurred while deleting the news!");
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -90,6 +103,7 @@ const ManageNews = () => {
     <>
       <div className="manage-news-form">
         <h2>Manage News</h2>
+        {loading && <p>Loading...</p>}
         <form onSubmit={handleSubmit} className="news-form">
           <input
             type="text"
@@ -113,39 +127,45 @@ const ManageNews = () => {
             value={formState.picture}
             onChange={handleChange}
           />
-          <button type="submit" className="btn-save">
+          <button type="submit" className="btn-save" disabled={loading}>
             {editId ? "Update News" : "Add News"}
           </button>
         </form>
       </div>
       <div className="manage-news-list">
-        <div className="news-list">
-          {news.map((item) => (
-            <div key={item._id} className="news-card">
-              <img
-                src={item.picture || "https://via.placeholder.com/150"}
-                alt={item.title}
-                className="news-image"
-              />
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
-              <div className="news-actions">
-                <button
-                  className="btn-edit"
-                  onClick={() => handleEdit(item._id)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="btn-delete"
-                  onClick={() => handleDelete(item._id)}
-                >
-                  Delete
-                </button>
+        {loading ? (
+          <p>Loading news...</p>
+        ) : (
+          <div className="news-list">
+            {news.map((item) => (
+              <div key={item._id} className="news-card">
+                <img
+                  src={item.picture || "https://via.placeholder.com/150"}
+                  alt={item.title}
+                  className="news-image"
+                />
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+                <div className="news-actions">
+                  <button
+                    className="btn-edit"
+                    onClick={() => handleEdit(item._id)}
+                    disabled={loading}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="btn-delete"
+                    onClick={() => handleDelete(item._id)}
+                    disabled={loading}
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </>
   );

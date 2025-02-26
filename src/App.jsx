@@ -13,9 +13,9 @@ import About from "./pages/About/About";
 import Legal from "./pages/Legal/Legal";
 
 import ManageNews from "./pages/Admin/ManageNews/ManageNews";
-import ManageAdoptions from "./pages/Admin/ManageAdoptions";
+import ManageAdoptions from "./pages/Admin/ManageAdoptions/ManageAdoptions";
 import ManageLostPets from "./pages/Admin/ManageLostPets/ManageLostPets";
-import Users from "./pages/Admin/Users";
+import ManageUsers from "./pages/Admin/ManageUsers/ManageUsers";
 import Login from "./pages/Authentication/Login";
 import Signup from "./pages/Authentication/Signup";
 
@@ -40,7 +40,7 @@ function App() {
           <Route path="manage-news" element={<ManageNews />} />
           <Route path="manage-lostpets" element={<ManageLostPets />} />
           <Route path="manage-adoptions" element={<ManageAdoptions />} />
-          <Route path="users" element={<Users />} />
+          <Route path="manage-users" element={<ManageUsers />} />
         </Route>
         {/* NOT FOUND */}
         <Route path="*" element={<h2>Not Found</h2>} />

@@ -1,12 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { ToasterContext } from "../../../context/ToasterContext";
-import {
-  createMissingPost,
-  getAllMissingPosts,
-  getMissingPostById,
-  updateMissingPost,
-  deleteMissingPost,
-} from "../../../services/api-service";
+import { missingService } from "../../../services/api-service";
 import "./ManageLostPets.css";
 
 const ManageLostPets = () => {
@@ -28,7 +22,7 @@ const ManageLostPets = () => {
   const fetchLostPets = async () => {
     setLoading(true);
     try {
-      const allPets = await getAllMissingPosts();
+      const allPets = await missingService.getAll();
       setLostPets(allPets);
     } catch (error) {
       toaster.error("An error occurred while fetching lost pets!");
@@ -51,10 +45,10 @@ const ManageLostPets = () => {
     setLoading(true);
     try {
       if (editId) {
-        await updateMissingPost(editId, formState);
+        await missingService.update(editId, formState);
         toaster.success("Lost pet updated successfully!");
       } else {
-        await createMissingPost(formState);
+        await missingService.create(formState);
         toaster.success("Lost pet added successfully!");
       }
       resetForm();
@@ -70,7 +64,7 @@ const ManageLostPets = () => {
   const handleEdit = async (id) => {
     setLoading(true);
     try {
-      const pet = await getMissingPostById(id);
+      const pet = await missingService.getById(id);
       setFormState({
         name: pet.name,
         description: pet.description,
@@ -89,7 +83,7 @@ const ManageLostPets = () => {
   const handleDelete = async (id) => {
     setLoading(true);
     try {
-      await deleteMissingPost(id);
+      await missingService.delete(id);
       toaster.success("Lost pet deleted successfully!");
       fetchLostPets();
     } catch (error) {

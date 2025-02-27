@@ -1,28 +1,12 @@
 import React, { useState, useEffect } from "react";
-import {
-  createUser,
-  getAllUsers,
-  getUserById,
-  updateUser,
-  deleteUser,
-} from "../../../services/api-service";
+import { userService } from "../../../services/api-service";
 import "./ManageUsers.css";
 
-const ManageUser = () => {
+const ManageUsers = () => {
   const [users, setUsers] = useState([]);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
-    title: "",
-    salutation: "",
-    birthPlace: "",
-    birthDate: "",
-    address: {
-      street: "",
-      houseNumber: "",
-      postalCode: "",
-      city: "",
-    },
     email: "",
     username: "",
     phone: "",
@@ -34,58 +18,30 @@ const ManageUser = () => {
     fetchUsers();
   }, []);
 
-  // const fetchUsers = async () => {
-  //   const response = await getAllUsers();
-  //   if (response.success) {
-  //     setUsers(response.data);
-  //   }
-  // };
-
   const fetchUsers = async () => {
-    const response = await getAllUsers();
-    console.log("Full API Response:", response); // Log the entire response
-
+    const response = await userService.getAll();
     if (response && response.success) {
-      console.log("Users Data:", response.data);
       setUsers(response.data);
     } else {
-      console.error("Error: API response was not successful", response);
+      console.error("Error fetching users", response);
     }
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (name.startsWith("address.")) {
-      const addressKey = name.split(".")[1];
-      setFormData((prev) => ({
-        ...prev,
-        address: { ...prev.address, [addressKey]: value },
-      }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    }
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (editingUserId) {
-      await updateUser(editingUserId, formData);
+      await userService.update(editingUserId, formData);
     } else {
-      await createUser(formData);
+      await userService.create(formData);
     }
     setFormData({
       firstName: "",
       lastName: "",
-      title: "",
-      salutation: "",
-      birthPlace: "",
-      birthDate: "",
-      address: {
-        street: "",
-        houseNumber: "",
-        postalCode: "",
-        city: "",
-      },
       email: "",
       username: "",
       phone: "",
@@ -96,7 +52,7 @@ const ManageUser = () => {
   };
 
   const handleEdit = async (id) => {
-    const response = await getUserById(id);
+    const response = await userService.getById(id);
     if (response.success) {
       setFormData(response.data);
       setEditingUserId(id);
@@ -104,7 +60,7 @@ const ManageUser = () => {
   };
 
   const handleDelete = async (id) => {
-    await deleteUser(id);
+    await userService.delete(id);
     fetchUsers();
   };
 
@@ -127,61 +83,6 @@ const ManageUser = () => {
           value={formData.lastName}
           onChange={handleInputChange}
           required
-        />
-        <input
-          type="text"
-          name="title"
-          placeholder="Title"
-          value={formData.title}
-          onChange={handleInputChange}
-        />
-        <input
-          type="text"
-          name="salutation"
-          placeholder="Salutation"
-          value={formData.salutation}
-          onChange={handleInputChange}
-        />
-        <input
-          type="text"
-          name="birthPlace"
-          placeholder="Birth Place"
-          value={formData.birthPlace}
-          onChange={handleInputChange}
-        />
-        <input
-          type="date"
-          name="birthDate"
-          value={formData.birthDate}
-          onChange={handleInputChange}
-        />
-        <input
-          type="text"
-          name="address.street"
-          placeholder="Street"
-          value={formData.address.street}
-          onChange={handleInputChange}
-        />
-        <input
-          type="text"
-          name="address.houseNumber"
-          placeholder="House Number"
-          value={formData.address.houseNumber}
-          onChange={handleInputChange}
-        />
-        <input
-          type="text"
-          name="address.postalCode"
-          placeholder="Postal Code"
-          value={formData.address.postalCode}
-          onChange={handleInputChange}
-        />
-        <input
-          type="text"
-          name="address.city"
-          placeholder="City"
-          value={formData.address.city}
-          onChange={handleInputChange}
         />
         <input
           type="email"
@@ -213,7 +114,7 @@ const ManageUser = () => {
           onChange={handleInputChange}
           required
         />
-        <button type="submit">
+        <button type="submit" className="btn-save">
           {editingUserId ? "Update User" : "Create User"}
         </button>
       </form>
@@ -240,13 +141,13 @@ const ManageUser = () => {
               <td>{user.phone}</td>
               <td>
                 <button
-                  className="edit-btn"
+                  className="btn-edit"
                   onClick={() => handleEdit(user._id)}
                 >
                   Edit
                 </button>
                 <button
-                  className="delete-btn"
+                  className="btn-delete"
                   onClick={() => handleDelete(user._id)}
                 >
                   Delete
@@ -260,4 +161,4 @@ const ManageUser = () => {
   );
 };
 
-export default ManageUser;
+export default ManageUsers;

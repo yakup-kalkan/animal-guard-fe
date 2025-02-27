@@ -27,61 +27,73 @@ const handleRequest = async (request) => {
     return response.data;
   } catch (error) {
     console.error("API Fehler:", error.response?.data || error.message);
+    if (error.response?.status === 401) {
+      logoutUser(); //* Falls Token abgelaufen oder nicht vorhanden, automatisch ausloggen
+    }
     throw error;
   }
 };
 
-//* News Services
-export const createNews = (data) =>
-  handleRequest(() => api.post("/news", data));
-export const getAllNews = () => handleRequest(() => api.get("/news"));
-export const getNewsById = (id) => handleRequest(() => api.get(`/news/${id}`));
-export const updateNews = (id, data) =>
-  handleRequest(() => api.put(`/news/${id}`, data));
-export const deleteNews = (id) =>
-  handleRequest(() => api.delete(`/news/${id}`));
+//* 🔐 Authentifizierung & Login Services
+export const loginUser = async (email, password) => {
+  const data = await handleRequest(() =>
+    api.post("/auth/login", { email, password })
+  );
+  localStorage.setItem("token", data.token);
+  localStorage.setItem("isAdmin", data.isAdmin);
+  return data;
+};
 
-//* Adoption Services
-export const createAdoptionPost = (data) =>
-  handleRequest(() => api.post("/adoption", data));
-export const getAllAdoptionPosts = () =>
-  handleRequest(() => api.get("/adoption"));
-export const getAdoptionPostById = (id) =>
-  handleRequest(() => api.get(`/adoption/${id}`));
-export const updateAdoptionPost = (id, data) =>
-  handleRequest(() => api.put(`/adoption/${id}`, data));
-export const deleteAdoptionPost = (id) =>
-  handleRequest(() => api.delete(`/adoption/${id}`));
+export const logoutUser = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("isAdmin");
+};
 
-//* Event Services
-export const createEvent = (data) =>
-  handleRequest(() => api.post("/events", data));
-export const getAllEvents = () => handleRequest(() => api.get("/events"));
-export const getEventById = (id) =>
-  handleRequest(() => api.get(`/events/${id}`));
-export const updateEvent = (id, data) =>
-  handleRequest(() => api.put(`/events/${id}`, data));
-export const deleteEvent = (id) =>
-  handleRequest(() => api.delete(`/events/${id}`));
+export const isAuthenticated = () => !!localStorage.getItem("token");
 
-//* Missing Services
-export const createMissingPost = (data) =>
-  handleRequest(() => api.post("/missing", data));
-export const getAllMissingPosts = () =>
-  handleRequest(() => api.get("/missing"));
-export const getMissingPostById = (id) =>
-  handleRequest(() => api.get(`/missing/${id}`));
-export const updateMissingPost = (id, data) =>
-  handleRequest(() => api.put(`/missing/${id}`, data));
-export const deleteMissingPost = (id) =>
-  handleRequest(() => api.delete(`/missing/${id}`));
+export const isAdmin = () => localStorage.getItem("isAdmin") === "true";
 
-//* User Services
-export const createUser = (data) =>
-  handleRequest(() => api.post("/users", data));
-export const getAllUsers = () => handleRequest(() => api.get("/users"));
-export const getUserById = (id) => handleRequest(() => api.get(`/users/${id}`));
-export const updateUser = (id, data) =>
-  handleRequest(() => api.put(`/users/${id}`, data));
-export const deleteUser = (id) =>
-  handleRequest(() => api.delete(`/users/${id}`));
+//* 📰 News Services
+export const newsService = {
+  create: (data) => handleRequest(() => api.post("/news", data)),
+  getAll: () => handleRequest(() => api.get("/news")),
+  getById: (id) => handleRequest(() => api.get(`/news/${id}`)),
+  update: (id, data) => handleRequest(() => api.put(`/news/${id}`, data)),
+  delete: (id) => handleRequest(() => api.delete(`/news/${id}`)),
+};
+
+//* 🐾 Adoption Services
+export const adoptionService = {
+  create: (data) => handleRequest(() => api.post("/adoption", data)),
+  getAll: () => handleRequest(() => api.get("/adoption")),
+  getById: (id) => handleRequest(() => api.get(`/adoption/${id}`)),
+  update: (id, data) => handleRequest(() => api.put(`/adoption/${id}`, data)),
+  delete: (id) => handleRequest(() => api.delete(`/adoption/${id}`)),
+};
+
+//* 🎉 Event Services
+export const eventService = {
+  create: (data) => handleRequest(() => api.post("/events", data)),
+  getAll: () => handleRequest(() => api.get("/events")),
+  getById: (id) => handleRequest(() => api.get(`/events/${id}`)),
+  update: (id, data) => handleRequest(() => api.put(`/events/${id}`, data)),
+  delete: (id) => handleRequest(() => api.delete(`/events/${id}`)),
+};
+
+//* ❓ Missing Services
+export const missingService = {
+  create: (data) => handleRequest(() => api.post("/missing", data)),
+  getAll: () => handleRequest(() => api.get("/missing")),
+  getById: (id) => handleRequest(() => api.get(`/missing/${id}`)),
+  update: (id, data) => handleRequest(() => api.put(`/missing/${id}`, data)),
+  delete: (id) => handleRequest(() => api.delete(`/missing/${id}`)),
+};
+
+//* 👤 User Services (Nur für Admins)
+export const userService = {
+  create: (data) => handleRequest(() => api.post("/users", data)),
+  getAll: () => handleRequest(() => api.get("/users")),
+  getById: (id) => handleRequest(() => api.get(`/users/${id}`)),
+  update: (id, data) => handleRequest(() => api.put(`/users/${id}`, data)),
+  delete: (id) => handleRequest(() => api.delete(`/users/${id}`)),
+};

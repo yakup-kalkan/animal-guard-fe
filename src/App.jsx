@@ -18,6 +18,7 @@ import ManageLostPets from "./pages/Admin/ManageLostPets/ManageLostPets";
 import ManageUsers from "./pages/Admin/ManageUsers/ManageUsers";
 import Login from "./pages/Authentication/Login";
 import Signup from "./pages/Authentication/Signup";
+import ManageEvents from "./pages/Admin/ManageEvents/ManageEvents";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
         {/* Admin Routes (Protected) */}
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="manage-news" element={<ManageNews />} />
+          <Route path="manage-events" element={<ManageEvents />} />
           <Route path="manage-lostpets" element={<ManageLostPets />} />
           <Route path="manage-adoptions" element={<ManageAdoptions />} />
           <Route path="manage-users" element={<ManageUsers />} />

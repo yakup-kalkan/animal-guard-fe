@@ -1,12 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { ToasterContext } from "../../../context/ToasterContext";
-import {
-  createAdoptionPost,
-  getAllAdoptionPosts,
-  getAdoptionPostById,
-  updateAdoptionPost,
-  deleteAdoptionPost,
-} from "../../../services/api-service";
+import { adoptionService } from "../../../services/api-service";
 import "./ManageAdoptions.css";
 
 const ManageAdoptions = () => {
@@ -27,7 +21,7 @@ const ManageAdoptions = () => {
   const fetchAdoptionPosts = async () => {
     setLoading(true);
     try {
-      const allPosts = await getAllAdoptionPosts();
+      const allPosts = await adoptionService.getAll();
       setAdoptionPosts(allPosts);
     } catch (error) {
       toaster.error("An error occurred while fetching adoption posts!");
@@ -46,10 +40,10 @@ const ManageAdoptions = () => {
     setLoading(true);
     try {
       if (editId) {
-        await updateAdoptionPost(editId, formState);
+        await adoptionService.update(editId, formState);
         toaster.success("Adoption post updated successfully!");
       } else {
-        await createAdoptionPost(formState);
+        await adoptionService.create(formState);
         toaster.success("Adoption post added successfully!");
       }
       resetForm();
@@ -65,7 +59,7 @@ const ManageAdoptions = () => {
   const handleEdit = async (id) => {
     setLoading(true);
     try {
-      const post = await getAdoptionPostById(id);
+      const post = await adoptionService.getById(id);
       setFormState({
         title: post.title,
         description: post.description,
@@ -83,7 +77,7 @@ const ManageAdoptions = () => {
   const handleDelete = async (id) => {
     setLoading(true);
     try {
-      await deleteAdoptionPost(id);
+      await adoptionService.delete(id);
       toaster.success("The adoption post was deleted!");
       fetchAdoptionPosts();
     } catch (error) {

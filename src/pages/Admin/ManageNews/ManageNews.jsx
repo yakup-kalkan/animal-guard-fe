@@ -1,12 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { ToasterContext } from "../../../context/ToasterContext";
-import {
-  createNews,
-  getAllNews,
-  getNewsById,
-  updateNews,
-  deleteNews,
-} from "../../../services/api-service";
+import { newsService } from "../../../services/api-service";
 import "./ManageNews.css";
 
 const ManageNews = () => {
@@ -27,7 +21,7 @@ const ManageNews = () => {
   const fetchNews = async () => {
     setLoading(true);
     try {
-      const allNews = await getAllNews();
+      const allNews = await newsService.getAll();
       setNews(allNews);
     } catch (error) {
       toaster.error("An error occurred while pulling the news!");
@@ -46,10 +40,10 @@ const ManageNews = () => {
     setLoading(true);
     try {
       if (editId) {
-        await updateNews(editId, formState);
+        await newsService.update(editId, formState);
         toaster.success("News updated successfully!");
       } else {
-        await createNews(formState);
+        await newsService.create(formState);
         toaster.success("News added successfully!");
       }
       resetForm();
@@ -65,7 +59,7 @@ const ManageNews = () => {
   const handleEdit = async (id) => {
     setLoading(true);
     try {
-      const newsItem = await getNewsById(id);
+      const newsItem = await newsService.getById(id);
       setFormState({
         title: newsItem.title,
         description: newsItem.description,
@@ -83,7 +77,7 @@ const ManageNews = () => {
   const handleDelete = async (id) => {
     setLoading(true);
     try {
-      await deleteNews(id);
+      await newsService.delete(id);
       toaster.success("The news was deleted!");
       fetchNews();
     } catch (error) {

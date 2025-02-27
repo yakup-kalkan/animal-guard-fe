@@ -19,6 +19,7 @@ import ManageUsers from "./pages/Admin/ManageUsers/ManageUsers";
 import Login from "./pages/Authentication/Login";
 import Signup from "./pages/Authentication/Signup";
 import ManageEvents from "./pages/Admin/ManageEvents/ManageEvents";
+import Events from "./pages/Events/Events";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route index element={<Home />} />
         <Route path="/" element={<Home />} />
         <Route path="/news" element={<News />} />
+        <Route path="/news" element={<Events />} />
         <Route path="/adoption" element={<Adoption />} />
         <Route path="/lost-pets" element={<LostPets />} />
         <Route path="/success" element={<SuccessStories />} />

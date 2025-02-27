@@ -27,6 +27,9 @@ const Navbar = () => {
             <Link to="/news">News</Link>
           </li>
           <li>
+            <Link to="/events">Events</Link>
+          </li>
+          <li>
             <Link to="/adoption">Adoption</Link>
           </li>
           <li>
@@ -48,7 +51,7 @@ const Navbar = () => {
       <div>
         {isAuthenticated ? (
           <>
-            {user?.role === "admin" && (
+            {user?.isAdmin && (
               <Link to="/admin" className="btn btn-full">
                 Dashboard
               </Link>

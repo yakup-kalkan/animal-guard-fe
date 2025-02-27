@@ -7,10 +7,12 @@ const ManageLostPets = () => {
   const { toaster } = useContext(ToasterContext);
   const [lostPets, setLostPets] = useState([]);
   const [formState, setFormState] = useState({
-    name: "",
+    title: "",
     description: "",
-    image: "",
-    found: false,
+    images: "",
+    breed: "",
+    colour: "",
+    chipped: false,
   });
   const [editId, setEditId] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -66,10 +68,12 @@ const ManageLostPets = () => {
     try {
       const pet = await missingService.getById(id);
       setFormState({
-        name: pet.name,
+        title: pet.title,
         description: pet.description,
-        image: pet.image,
-        found: pet.found,
+        images: pet.images,
+        breed: pet.breed || "",
+        colour: pet.colour || "",
+        chipped: pet.chipped || false,
       });
       setEditId(id);
     } catch (error) {
@@ -96,10 +100,12 @@ const ManageLostPets = () => {
 
   const resetForm = () => {
     setFormState({
-      name: "",
+      title: "",
       description: "",
-      image: "",
-      found: false,
+      images: "",
+      breed: "",
+      colour: "",
+      chipped: false,
     });
     setEditId(null);
   };
@@ -112,9 +118,9 @@ const ManageLostPets = () => {
         <form onSubmit={handleSubmit} className="lost-pet-form">
           <input
             type="text"
-            name="name"
-            placeholder="Pet Name"
-            value={formState.name}
+            name="title"
+            placeholder="Pet Title"
+            value={formState.title}
             onChange={handleChange}
             required
           />
@@ -127,19 +133,34 @@ const ManageLostPets = () => {
           />
           <input
             type="text"
-            name="image"
-            placeholder="Image URL (optional)"
-            value={formState.image}
+            name="images"
+            placeholder="Image URLs (comma separated)"
+            value={formState.images}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="breed"
+            placeholder="Breed (optional)"
+            value={formState.breed}
             onChange={handleChange}
           />
-          <label className="found-checkbox">
+          <input
+            type="text"
+            name="colour"
+            placeholder="Colour (optional)"
+            value={formState.colour}
+            onChange={handleChange}
+          />
+          <label className="chipped-checkbox">
             <input
               type="checkbox"
-              name="found"
-              checked={formState.found}
+              name="chipped"
+              checked={formState.chipped}
               onChange={handleChange}
-            />{" "}
-            Found
+            />
+            Chipped
           </label>
           <button type="submit" className="btn-save" disabled={loading}>
             {editId ? "Update Pet" : "Add Lost Pet"}
@@ -152,23 +173,22 @@ const ManageLostPets = () => {
         ) : (
           <div className="lost-pets-list">
             {lostPets.map((item) => (
-              <div
-                key={item._id}
-                className={`lost-pet-card ${item.found ? "found" : ""}`}
-              >
+              <div key={item._id} className="lost-pet-card">
                 <img
-                  src={item.image || "https://via.placeholder.com/150"}
-                  alt={item.name}
+                  src={
+                    (Array.isArray(item.images)
+                      ? item.images[0]
+                      : item.images) || "https://via.placeholder.com/150"
+                  }
+                  alt={item.title}
                   className="lost-pet-image"
                 />
-                <h3>{item.name}</h3>
+                <h3>{item.title}</h3>
                 <p>{item.description}</p>
-                <p
-                  className={`status ${
-                    item.found ? "found-text" : "lost-text"
-                  }`}
-                >
-                  {item.found ? "✅ Found" : "❌ Still Missing"}
+                <p>Breed: {item.breed || "Unknown"}</p>
+                <p>Colour: {item.colour || "Unknown"}</p>
+                <p className="status">
+                  {item.chipped ? "✅ Chipped" : "❌ Not Chipped"}
                 </p>
                 <div className="lost-pet-actions">
                   <button

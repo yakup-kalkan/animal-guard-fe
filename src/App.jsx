@@ -37,6 +37,7 @@ function App() {
         <Route path="/legal" element={<Legal />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/events" element={<Events />} />
 
         {/* Admin Routes (Protected) */}
         <Route path="/admin" element={<AdminLayout />}>

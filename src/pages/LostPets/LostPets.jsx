@@ -55,7 +55,8 @@ const LostPets = () => {
             onClick={() => handleOpenModal(pet)}
           >
             <img
-              src={pet.image || "/src/assets/img/default.png"}
+              //src={pet.image || "/src/assets/img/default.png"}
+              src={"/src/assets/img/default.png"}
               alt={pet.name}
               className="lostpet-image"
             />

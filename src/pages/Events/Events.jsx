@@ -2,6 +2,19 @@ import React, { useEffect, useState } from "react";
 import { eventService } from "../../services/api-service";
 import "./Events.css";
 
+const Newsletter = () => {
+  return (
+    <section className="newsletter">
+      <h2>Stay Updated!</h2>
+      <p>Subscribe for the latest pet tips and updates.</p>
+      <div className="newsletter-input">
+        <input type="email" placeholder="Enter your email" />
+        <button className="btn">Subscribe</button>
+      </div>
+    </section>
+  );
+};
+
 const Events = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -36,6 +49,7 @@ const Events = () => {
   return (
     <div className="events-container">
       <h1>Upcoming Events</h1>
+      <Newsletter />
       <div className="events-grid">
         {events.map((event) => (
           <div
@@ -44,7 +58,8 @@ const Events = () => {
             onClick={() => handleOpenModal(event)}
           >
             <img
-              src={event.image || "/src/assets/img/default.png"}
+              //src={event.image || "/src/assets/img/default.png"}
+              src={"/src/assets/img/default.png"}
               alt={event.title}
               className="event-image"
             />

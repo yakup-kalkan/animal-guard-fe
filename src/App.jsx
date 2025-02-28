@@ -11,15 +11,15 @@ import SuccessStories from "./pages/SuccessStories/SuccessStories";
 import Donations from "./pages/Donations/Donations";
 import About from "./pages/About/About";
 import Legal from "./pages/Legal/Legal";
+import Events from "./pages/Events/Events";
 
 import ManageNews from "./pages/Admin/ManageNews/ManageNews";
 import ManageAdoptions from "./pages/Admin/ManageAdoptions/ManageAdoptions";
 import ManageLostPets from "./pages/Admin/ManageLostPets/ManageLostPets";
+import ManageEvents from "./pages/Admin/ManageEvents/ManageEvents";
 import ManageUsers from "./pages/Admin/ManageUsers/ManageUsers";
 import Login from "./pages/Authentication/Login";
 import Signup from "./pages/Authentication/Signup";
-import ManageEvents from "./pages/Admin/ManageEvents/ManageEvents";
-import Events from "./pages/Events/Events";
 
 function App() {
   return (

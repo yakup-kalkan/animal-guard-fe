@@ -44,7 +44,8 @@ const Adoption = () => {
             onClick={() => handleOpenModal(adoption)}
           >
             <img
-              src={adoption.images?.[0] || "/src/assets/img/default.png"}
+              //src={adoption.images?.[0] || "/src/assets/img/default.png"}
+              src={"/src/assets/img/default.png"}
               alt={adoption.title}
               className="adoption-image"
             />

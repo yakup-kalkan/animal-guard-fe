@@ -58,7 +58,7 @@ const News = () => {
             onClick={() => handleOpenModal(newsItem)}
           >
             <img
-              src={newsItem.image || "/default-news.jpg"}
+              src={newsItem.image || "/src/assets/img/default.png"}
               alt={newsItem.title}
               className="news-image"
             />

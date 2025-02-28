@@ -44,7 +44,7 @@ const Events = () => {
             onClick={() => handleOpenModal(event)}
           >
             <img
-              src={event.image || "/default-event.jpg"}
+              src={event.image || "/src/assets/img/default.png"}
               alt={event.title}
               className="event-image"
             />

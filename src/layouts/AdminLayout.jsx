@@ -6,7 +6,7 @@ import "../pages/Admin/Dashboard/Dashboard.css";
 const AdminLayout = () => {
   const { user, isAuthenticated } = useContext(AuthContext);
 
-  if (!isAuthenticated || !user?.isAdmin) {
+  if (!isAuthenticated) {
     return <Navigate to="/" replace />;
   }
 
@@ -31,10 +31,12 @@ const AdminLayout = () => {
           <h3>Manage Adoptions</h3>
           <p>Approve and review adoptions</p>
         </Link>
-        <Link to="manage-users" className="dashboard-card">
-          <h3>Manage Users</h3>
-          <p>View and manage registered users</p>
-        </Link>
+        {user?.isAdmin && (
+          <Link to="manage-users" className="dashboard-card">
+            <h3>Manage Users</h3>
+            <p>View and manage registered users</p>
+          </Link>
+        )}
       </div>
 
       <div className="dashboard-content">

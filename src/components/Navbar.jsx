@@ -51,11 +51,11 @@ const Navbar = () => {
       <div>
         {isAuthenticated ? (
           <>
-            {user?.isAdmin && (
-              <Link to="/admin" className="btn btn-full">
-                Dashboard
-              </Link>
-            )}
+            {/* {user?.isAdmin && ( */}
+            <Link to="/admin" className="btn btn-full">
+              Dashboard
+            </Link>
+            //)}
             <button className="btn btn-secondary" onClick={logout}>
               Logout
             </button>

@@ -55,7 +55,6 @@ const Navbar = () => {
             <Link to="/admin" className="btn btn-full">
               Dashboard
             </Link>
-            //)}
             <button className="btn btn-secondary" onClick={logout}>
               Logout
             </button>

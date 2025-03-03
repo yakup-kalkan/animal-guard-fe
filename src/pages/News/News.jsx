@@ -62,10 +62,12 @@ const News = () => {
               alt={newsItem.title}
               className="news-image"
             />
-            <h2>{newsItem.title}</h2>
-            <p className="news-description">
-              {newsItem.description.slice(0, 100)}...
-            </p>
+            <div className="news-content">
+              <h2>{newsItem.title}</h2>
+              <p className="news-description">
+                {newsItem.description.slice(0, 100)}...
+              </p>
+            </div>
           </div>
         ))}
       </div>

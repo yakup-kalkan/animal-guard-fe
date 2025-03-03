@@ -7,134 +7,16 @@ body {
   color: #333;
 }
 
+/* Main content outside the Navbar */
+.main-content {
+  margin-left: 300px; /* Shift the content by the width of the Navbar */
+  padding: 20px; /* Add some spacing inside the page content */
+}
+
 h2 {
   text-align: center;
   margin-bottom: 20px;
 }
-
-/* Navbar */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 50px;
-  background: linear-gradient(135deg, #1693db, #0c7abf);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  width: 100%;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-}
-
-/* Logo */
-.navbar .logo {
-  font-size: 28px;
-  font-weight: bold;
-  font-family: "Poppins", sans-serif;
-  color: #fff;
-  transition: transform 0.3s ease;
-}
-
-.navbar .logo:hover {
-  transform: scale(1.05);
-}
-
-.navbar .logo span {
-  color: #ffcc00;
-}
-
-/* Navbar Links */
-.navbar ul {
-  list-style: none;
-  display: flex;
-  padding: 0;
-  margin: 0;
-}
-
-.navbar ul li {
-  font-size: 14px;
-  margin: 0 10px;
-}
-
-.navbar ul li a {
-  text-decoration: none;
-  color: #fff;
-  font-weight: 500;
-  padding: 10px 15px;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
-/* Hover Effect */
-.navbar ul li a:hover {
-  background: rgba(255, 255, 255, 0.2);
-  color: #ffcc00;
-}
-
-/* Mobile-Friendly Navbar */
-@media (max-width: 768px) {
-  .navbar {
-    padding: 15px 30px;
-  }
-
-  .navbar ul {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 60px;
-    right: 30px;
-    background: rgba(22, 147, 219, 0.9);
-    border-radius: 10px;
-    padding: 15px;
-  }
-
-  .navbar ul li {
-    margin: 10px 0;
-  }
-
-  .navbar ul.show {
-    display: flex;
-  }
-}
-
-/* Navbar
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 50px;
-  background: #fff;
-}
-
-.navbar .logo {
-  font-size: 28px;
-  font-weight: bold;
-  font-family: "Poppins", sans-serif;
-  color: #333;
-}
-
-.navbar .logo span {
-  color: #1693db;
-}
-
-.navbar ul {
-  list-style: none;
-  display: flex;
-  padding: 0;
-  margin: 0;
-}
-
-.navbar ul li {
-  font-size: 12px;
-  margin: 0 4px;
-}
-
-.navbar ul li a {
-  text-decoration: none;
-  color: #333;
-  font-weight: bold;
-} */
 
 /* Buttons - Login, Signup, Logout */
 .btn {
@@ -389,15 +271,6 @@ h2 {
 .testimonial-icon img {
   width: 20px;
   height: 20px;
-}
-
-/* Authentication Section */
-.auth-section {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: #f9f9f9;
 }
 
 .auth-container {

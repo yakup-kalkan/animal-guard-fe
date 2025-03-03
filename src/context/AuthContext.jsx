@@ -13,10 +13,9 @@ const AuthContextProvider = ({ children }) => {
   const { toaster } = useContext(ToasterContext);
   const navigate = useNavigate();
 
-  // Sayfa yüklendiğinde localStorage'dan kullanıcı bilgilerini kontrol et
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const isAdmin = localStorage.getItem("isAdmin") === "true"; // Boolean olarak al
+    const isAdmin = localStorage.getItem("isAdmin") === "true";
 
     if (token) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;

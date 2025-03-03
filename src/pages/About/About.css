@@ -1,109 +1,155 @@
-/* General Container */
 .container {
-  max-width: 1100px;
+  width: 80%;
   margin: auto;
-  padding: 20px;
+  padding: 20px 0;
 }
 
-/* Hero Section */
 .hero-section {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  text-align: left;
-  padding: 15px 20px;
-  background: linear-gradient(135deg, #1693db, #0c7abf);
-  border-radius: 12px;
+  padding: 60px 0;
+  background: linear-gradient(135deg, #5fa8d3, #1b4965);
   color: white;
-}
-
-.hero-section h1 {
-  font-size: 36px;
-  margin-bottom: 10px;
-}
-
-.hero-section h1 span {
-  color: #ffcc00;
+  border-radius: 12px;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .hero-text {
-  flex: 1;
-  padding-right: 20px;
+  width: 50%;
+  padding: 20px;
 }
 
-.hero-section img {
-  width: 350px;
+.hero-text h1 {
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.hero-text span {
+  color: #b8e0d2;
+}
+
+.hero-text p {
+  font-size: 18px;
+  margin-top: 10px;
+  line-height: 1.6;
+}
+
+.hero-button {
+  margin-top: 20px;
+  padding: 12px 24px;
+  background-color: #b8e0d2;
+  color: #1b4965;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.hero-button:hover {
+  background: white;
+  color: #1b4965;
+}
+
+.hero-image {
+  width: 50%;
+}
+
+.hero-image img {
+  width: 100%;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* Features Section */
 .features {
+  text-align: center;
+  margin-top: 60px;
+}
+
+.feature-container {
   display: flex;
-  flex-wrap: wrap;
+  justify-content: space-between;
   gap: 20px;
-  justify-content: center;
-  margin: 50px 0;
+  margin-top: 30px;
 }
 
 .feature-box {
-  flex: 1;
-  min-width: 250px;
-  max-width: 300px;
-  background: #f9f9f9;
+  background: white;
   padding: 20px;
   border-radius: 10px;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  width: 30%;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
 }
 
 .feature-box:hover {
   transform: translateY(-5px);
-  background: #e0f2ff;
 }
 
-/* How You Can Help Section */
-.app-section {
+.feature-box h3 {
+  color: #1b4965;
+  margin-bottom: 10px;
+}
+
+.help-section {
   text-align: center;
-  padding: 20px 20px;
-  background: #ffcc00;
+  margin-top: 60px;
+  padding: 40px;
+  background: #b8e0d2;
   border-radius: 12px;
-  margin-bottom: 12px;
+  color: #1b4965;
 }
 
-.app-section h2 {
-  font-size: 28px;
+.help-button {
+  margin-top: 20px;
+  padding: 12px 24px;
+  background-color: #1b4965;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.help-button:hover {
+  background: white;
+  color: #1b4965;
 }
 
 .contact-section {
   text-align: center;
-  padding: 40px 20px;
-  background: #f4f4f4;
-  border-radius: 12px;
-  margin-bottom: 100px;
+  margin-top: 60px;
 }
 
-.hero-button {
-  background: #1693db;
-  color: white;
+.contact-info p {
   font-size: 18px;
-  padding: 12px 24px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s ease;
+  margin: 10px 0;
 }
 
-.hero-button:hover {
-  background: #0c7abf;
+.contact-info span {
+  font-weight: bold;
+  color: #1b4965;
 }
 
-/* Contact Section */
-section:last-child {
-  text-align: center;
-  padding: 30px;
-  background: #f9f9f9;
-  border-radius: 10px;
+@media screen and (max-width: 768px) {
+  .hero-section {
+    flex-direction: column;
+    text-align: center;
+    padding: 40px 20px;
+  }
+
+  .hero-text,
+  .hero-image {
+    width: 100%;
+  }
+
+  .feature-container {
+    flex-direction: column;
+  }
+
+  .feature-box {
+    width: 100%;
+  }
 }

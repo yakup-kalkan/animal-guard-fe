@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { missingService } from "../../services/api-service"; // Using the correct service
+import { missingService } from "../../services/api-service";
 import "./LostPets.css";
 
 const ReportLostPet = () => {
@@ -55,15 +55,16 @@ const LostPets = () => {
             onClick={() => handleOpenModal(pet)}
           >
             <img
-              //src={pet.image || "/src/assets/img/default.png"}
-              src={"/src/assets/img/default.png"}
+              src={pet.image || "/src/assets/img/default.png"}
               alt={pet.name}
               className="lostpet-image"
             />
-            <h2>{pet.name}</h2>
-            <p className="lostpet-description">
-              {pet.description.slice(0, 100)}...
-            </p>
+            <div className="lostpet-content">
+              <h2>{pet.name}</h2>
+              <p className="lostpet-description">
+                {pet.description.slice(0, 100)}...
+              </p>
+            </div>
           </div>
         ))}
       </div>

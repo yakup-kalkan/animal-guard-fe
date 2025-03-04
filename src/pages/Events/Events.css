@@ -1,4 +1,149 @@
 .events-container {
+  width: 100%;
+  max-width: 100vw;
+  overflow: hidden;
+  position: relative;
+}
+
+/* 📌 Slider Ayarları */
+.events-slider-container {
+  width: 100%;
+  max-width: 100vw;
+  margin-bottom: 20px;
+}
+
+.events-swiper {
+  width: 100%;
+  height: 300px;
+}
+
+.event-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.event-slide-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.event-slide-content {
+  position: absolute;
+  bottom: 10%;
+  left: 5%;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  max-width: 50%;
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+  padding: 20px;
+}
+
+/* 📌 Etkinlik Detay Kartı */
+.event-detail {
+  width: 90%;
+  max-width: 600px;
+  margin: 20px auto;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: center;
+}
+
+.event-detail-header {
+  background: #ff9800;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  justify-content: space-between;
+}
+
+.event-detail-header h2 {
+  margin: 0 auto;
+  font-size: 1.5rem;
+}
+
+.back-button {
+  font-size: 1.8rem;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.event-detail-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.event-detail-content {
+  padding: 20px;
+}
+
+.event-detail-content h3 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+
+.event-detail-date {
+  font-size: 0.9rem;
+  color: gray;
+}
+
+.event-detail-description {
+  font-size: 1rem;
+  color: #444;
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+/* 📌 Newsletter En Altta */
+.newsletter {
+  width: 100%;
+  padding: 30px;
+  text-align: center;
+  background: #f1f1f1;
+  margin-top: 30px;
+}
+
+.newsletter-input {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.newsletter-input input {
+  padding: 10px;
+  width: 250px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.btn {
+  background: #ff9800;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin-left: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* .events-container {
   text-align: center;
   padding: 20px;
 }
@@ -47,7 +192,7 @@
   padding: 0 10px 10px;
 }
 
-/* MODAL STYLES */
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -83,4 +228,4 @@
   height: auto;
   margin-top: 10px;
   border-radius: 5px;
-}
+} */

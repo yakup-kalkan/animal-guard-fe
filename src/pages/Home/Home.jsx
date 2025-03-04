@@ -1,73 +1,144 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { useLanguage } from "../../context/LanguageContext";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import "./Home.css";
 
-const Hero = ({ isAuthenticated }) => {
+const HeroSlider = () =>
+{
+  const { t } = useLanguage();
+
+  const slides = [
+    { image: "/src/assets/img/Home/A-playful-cat-and-dog-sitting-together-on-a-cozy-sofa-looking-at-the-camera.jpg", text: t("home", "hero_slide_1") },
+    { image: "/src/assets/img/Home/Cat-and-dog-wallpaper-free.jpg", text: t("home", "hero_slide_2") },
+    { image: "/src/assets/img/Home/Cute-cat-and-dog-hd-wallpaper-high-quality.jpg", text: t("home", "hero_slide_3") },
+    { image: "/src/assets/img/Home/cute-cat-and-dog-sleep-wallpaper.jpg", text: t("home", "hero_slide_4") },
+    { image: "/src/assets/img/Home/Cute-Dog-and-Cat-Wallpaper.jpg", text: t("home", "hero_slide_5") },
+    { image: "/src/assets/img/Home/Wallpaper-cute-sweet-girl-cat-and-dog.jpg", text: t("home", "hero_slide_6") }
+  ];
+
   return (
-    <section className="hero">
-      <div className="hero-text">
-        <h2>
-          The best support for your <span>best friend</span>
-        </h2>
-        <p>Find answers for all your pet’s needs and access expert advice.</p>
-        {!isAuthenticated && (
-          <Link to="/login" className="btn btn-full">
-            Login
-          </Link>
-        )}
-      </div>
-      <div className="hero-image">
-        <img src="src\assets\img\3725065.jpg" alt="Dog and Cat" />
+    <Swiper
+      modules={[Autoplay, Pagination, Navigation]}
+      spaceBetween={50}
+      slidesPerView={1}
+      autoplay={{ delay: 3000, disableOnInteraction: false }}
+      pagination={{ clickable: true }}
+      navigation
+      className="hero-slider"
+    >
+      {slides.map((slide, index) => (
+        <SwiperSlide key={index} className="slide-item">
+          <img src={slide.image} alt={slide.text} className="slide-image" />
+          <div className="slide-text">{slide.text}</div>
+        </SwiperSlide>
+      ))}
+    </Swiper>
+  );
+};
+
+const ContentSection = () =>
+{
+  const { t } = useLanguage();
+
+  return (
+    <section className="content-section">
+      <div className="content-container">
+        <div className="text-section">
+          <h2>{t("home", "why_pet_care_matters_title")}</h2>
+          <p>{t("home", "why_pet_care_matters_text")}</p>
+        </div>
+        <div className="media-container">
+          <Swiper
+            modules={[Autoplay, Pagination]}
+            spaceBetween={20}
+            slidesPerView={1}
+            autoplay={{ delay: 4000, disableOnInteraction: false }}
+            pagination={{ clickable: true }}
+            className="image-slider"
+          >
+            <SwiperSlide><img src="/src/assets/img/Home/Cat-and-dog-wallpaper-free.jpg" alt="Pet 1" className="slide-img" /></SwiperSlide>
+            <SwiperSlide><img src="/src/assets/img/Home/Cute-cat-and-dog-hd-wallpaper-high-quality.jpg" alt="Pet 2" className="slide-img" /></SwiperSlide>
+            <SwiperSlide><img src="/src/assets/img/Home/A-playful-cat-and-dog-sitting-together-on-a-cozy-sofa-looking-at-the-camera.jpg" alt="Pet 3" className="slide-img" /></SwiperSlide>
+          </Swiper>
+          <video controls autoPlay muted className="content-video">
+            <source src="/src/assets/vid/14615296-uhd_3840_2160_50fps.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
       </div>
     </section>
   );
 };
 
-const Tips = () => {
+
+const Modal = ({ content, onClose }) =>
+{
+  if (!content) return null;
+
   return (
-    <section className="tips">
-      <h2>Essential Tips for Your Pet's Comfort</h2>
-      <div className="tips-container">
-        <div className="tip-card">
-          <div className="tip-icon">
-            <img src="/images/icon-training.png" alt="Training" />
-          </div>
-          <h3 className="tip-title">Training</h3>
-          <p>
-            Correct behaviors, educate, have fun, and strengthen your bond with
-            your pet.
-          </p>
-        </div>
-
-        <div className="tip-card">
-          <div className="tip-icon">
-            <img src="/images/icon-food.png" alt="Food" />
-          </div>
-          <h3 className="tip-title">Nutrition</h3>
-          <p>Learn how to choose the best foods for your pet's health.</p>
-        </div>
-
-        <div className="tip-card">
-          <div className="tip-icon">
-            <img src="/images/icon-adoption.png" alt="Adoption" />
-          </div>
-          <h3 className="tip-title">Adoption</h3>
-          <p>Find out how to adopt and take good care of your new friend.</p>
-        </div>
-
-        <div className="tip-card">
-          <div className="tip-icon">
-            <img src="/images/icon-health.png" alt="Health" />
-          </div>
-          <h3 className="tip-title">Health</h3>
-          <p>Monitor your pet's health and prevent diseases.</p>
-        </div>
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <button className="modal-close" onClick={onClose}>&times;</button>
+        <img src={content.image} alt={content.title} className="modal-image" />
+        <h2>{content.title}</h2>
+        <p>{content.text}</p>
       </div>
+    </div>
+  );
+};
+
+const Tips = () =>
+{
+  const { t } = useLanguage();
+  const [selectedTip, setSelectedTip] = useState(null);
+
+  const tipsData = [
+    {
+      title: t("home", "tips_training_title"),
+      image: "/src/assets/img/Home/training/male-dog-trainer-outdoors-with-dog-session.jpg",
+      text: t("home", "tips_training_text")
+    },
+    {
+      title: t("home", "tips_food_title"),
+      image: "/src/assets/img/Home/food/healthy-fresh-pet-food-ingredients-dark-surface.jpg",
+      text: t("home", "tips_food_text")
+    },
+    {
+      title: t("home", "tips_adoption_title"),
+      image: "/src/assets/img/Home/adoption-tips/smiley-woman-spending-time-with-cute-rescue-dogs-shelter.jpg",
+      text: t("home", "tips_adoption_text")
+    },
+    {
+      title: t("home", "tips_health_title"),
+      image: "/src/assets/img/Home/health/Screenshot 2025-03-04 124036.png",
+      text: t("home", "tips_health_text")
+    }
+  ];
+
+  return (
+    <section className="tips-section">
+      <h2>{t("home", "tips_section_title")}</h2>
+      <div className="tips-grid">
+        {tipsData.map((tip, index) => (
+          <div key={index} className="tip-card" onClick={() => setSelectedTip(tip)}>
+            <img src={tip.image} alt={tip.title} className="tip-image" />
+            <h3 className="tip-title">{tip.title}</h3>
+          </div>
+        ))}
+      </div>
+      <Modal content={selectedTip} onClose={() => setSelectedTip(null)} />
     </section>
   );
 };
 
-const Testimonials = () => {
+const Testimonials = () =>
+{
   return (
     <section className="testimonials">
       <h2>
@@ -130,7 +201,8 @@ const Testimonials = () => {
   );
 };
 
-const Placeholder = ({ height = "10px" }) => {
+const Placeholder = ({ height = "10px" }) =>
+{
   return (
     <section>
       <div style={{ height }}></div>
@@ -138,12 +210,16 @@ const Placeholder = ({ height = "10px" }) => {
   );
 };
 
-const Home = () => {
-  const { isAuthenticated } = useContext(AuthContext); // Import from Auth Context
+const Home = () =>
+{
+  const { isAuthenticated } = useContext(AuthContext);
   return (
     <div className="container">
-      {/* Hero Section */}
-      <Hero isAuthenticated={isAuthenticated} />
+      {/* Hero Section mit Swiper */}
+      <HeroSlider />
+
+      {/* Neuer Content-Bereich */}
+      <ContentSection />
 
       {/* Tips */}
       <Tips />

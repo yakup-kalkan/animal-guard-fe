@@ -1,9 +1,16 @@
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { useLanguage } from "../../context/LanguageContext";
 import { ToasterContext } from "../../context/ToasterContext";
 import "./Navbar.css";
 import Footer from "../Footer";
+
+const languageOptions = [
+  { code: "en", label: "English", flag: "🇬🇧" },
+  { code: "de", label: "Deutsch", flag: "🇩🇪" },
+  { code: "tr", label: "Türkçe", flag: "🇹🇷" },
+];
 
 const Navbar = () => {
   const { isAuthenticated, logout } = useContext(AuthContext);

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { useLanguage } from "../../context/LanguageContext";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -10,13 +11,15 @@ import "./Home.css";
 
 const HeroSlider = () =>
 {
+  const { t } = useLanguage();
+
   const slides = [
-    { image: "/src/assets/img/Home/A-playful-cat-and-dog-sitting-together-on-a-cozy-sofa-looking-at-the-camera.jpg", text: "Caring for Your Pet Starts Here" },
-    { image: "/src/assets/img/Home/Cat-and-dog-wallpaper-free.jpg", text: "Best Nutrition Tips for Your Pet" },
-    { image: "/src/assets/img/Home/Cute-cat-and-dog-hd-wallpaper-high-quality.jpg", text: "Adoption: Find a new Friend" },
-    { image: "/src/assets/img/Home/cute-cat-and-dog-sleep-wallpaper.jpg", text: "Training Tips for a Happy Pet" },
-    { image: "/src/assets/img/Home/Cute-Dog-and-Cat-Wallpaper.jpg", text: "Health & Wellness Advice" },
-    { image: "/src/assets/img/Home/Wallpaper-cute-sweet-girl-cat-and-dog.jpg", text: "Join Our Community Today" }
+    { image: "/src/assets/img/Home/A-playful-cat-and-dog-sitting-together-on-a-cozy-sofa-looking-at-the-camera.jpg", text: t("home", "hero_slide_1") },
+    { image: "/src/assets/img/Home/Cat-and-dog-wallpaper-free.jpg", text: t("home", "hero_slide_2") },
+    { image: "/src/assets/img/Home/Cute-cat-and-dog-hd-wallpaper-high-quality.jpg", text: t("home", "hero_slide_3") },
+    { image: "/src/assets/img/Home/cute-cat-and-dog-sleep-wallpaper.jpg", text: t("home", "hero_slide_4") },
+    { image: "/src/assets/img/Home/Cute-Dog-and-Cat-Wallpaper.jpg", text: t("home", "hero_slide_5") },
+    { image: "/src/assets/img/Home/Wallpaper-cute-sweet-girl-cat-and-dog.jpg", text: t("home", "hero_slide_6") }
   ];
 
   return (
@@ -41,14 +44,14 @@ const HeroSlider = () =>
 
 const ContentSection = () =>
 {
+  const { t } = useLanguage();
+
   return (
     <section className="content-section">
       <div className="content-container">
         <div className="text-section">
-          <h2>Why Pet Care Matters</h2>
-          <p>
-            Taking care of your pet is more than just feeding and playing. It’s about providing a healthy and safe environment.
-          </p>
+          <h2>{t("home", "why_pet_care_matters_title")}</h2>
+          <p>{t("home", "why_pet_care_matters_text")}</p>
         </div>
         <div className="media-container">
           <Swiper
@@ -92,33 +95,35 @@ const Modal = ({ content, onClose }) =>
 
 const Tips = () =>
 {
+  const { t } = useLanguage();
   const [selectedTip, setSelectedTip] = useState(null);
+
   const tipsData = [
     {
-      title: "Training",
+      title: t("home", "tips_training_title"),
       image: "/src/assets/img/Home/training/male-dog-trainer-outdoors-with-dog-session.jpg",
-      text: "Correct behaviors, educate, have fun, and strengthen your bond with your pet."
+      text: t("home", "tips_training_text")
     },
     {
-      title: "Food",
+      title: t("home", "tips_food_title"),
       image: "/src/assets/img/Home/food/healthy-fresh-pet-food-ingredients-dark-surface.jpg",
-      text: "Learn how to choose the best foods for your pet's health."
+      text: t("home", "tips_food_text")
     },
     {
-      title: "Adoption",
+      title: t("home", "tips_adoption_title"),
       image: "/src/assets/img/Home/adoption-tips/smiley-woman-spending-time-with-cute-rescue-dogs-shelter.jpg",
-      text: "Find out how to adopt and take good care of your new friend."
+      text: t("home", "tips_adoption_text")
     },
     {
-      title: "Health",
+      title: t("home", "tips_health_title"),
       image: "/src/assets/img/Home/health/Screenshot 2025-03-04 124036.png",
-      text: "Monitor your pet's health and prevent diseases."
+      text: t("home", "tips_health_text")
     }
   ];
 
   return (
     <section className="tips-section">
-      <h2>Essential Tips for Your Pet's Comfort</h2>
+      <h2>{t("home", "tips_section_title")}</h2>
       <div className="tips-grid">
         {tipsData.map((tip, index) => (
           <div key={index} className="tip-card" onClick={() => setSelectedTip(tip)}>

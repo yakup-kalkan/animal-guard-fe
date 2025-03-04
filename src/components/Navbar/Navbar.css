@@ -143,3 +143,21 @@
     padding: 10px;
   }
 }
+
+/** Language Section */
+
+.language-selector {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.language-dropdown {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 2px solid #b8e0d2;
+  background: #ffffff;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}

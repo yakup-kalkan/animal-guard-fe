@@ -1,17 +1,51 @@
 .adoption-container {
-  width: 90%;
-  margin: auto;
-  padding: 40px 0;
+  width: 100%;
+  max-width: 100vw;
+  overflow: hidden;
+  position: relative;
 }
 
-h1 {
-  text-align: center;
-  font-size: 36px;
-  color: #1b4965;
+/* Adoption Slider */
+.adoption-slider-container {
+  width: 100%;
+  max-width: 100vw;
   margin-bottom: 20px;
 }
 
-/* Modern Filters */
+.adoption-swiper {
+  width: 100%;
+  min-height: 500px; /* Minimum height */
+  max-height: 600px; /* Maximum height */
+  height: 440vw; /* Height due to screen width */
+}
+
+.adoption-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.adoption-slide-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.adoption-slide-content {
+  position: absolute;
+  bottom: 10%;
+  left: 5%;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  max-width: 50%;
+}
+
 .filters {
   text-align: center;
   background: linear-gradient(135deg, #5fa8d3, #1b4965);
@@ -42,14 +76,12 @@ h1 {
   color: #1b4965;
 }
 
-/* Adoption Grid */
 .adoption-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
 }
 
-/* Adoption Card */
 .adoption-card {
   background: white;
   border-radius: 15px;
@@ -70,7 +102,6 @@ h1 {
   object-fit: cover;
 }
 
-/* Modal */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -114,12 +145,65 @@ h1 {
 }
 
 /* Responsive */
-@media screen and (max-width: 768px) {
-  .filters {
-    flex-direction: column;
+/* 📌 Small phones (e.g., iPhone SE) */
+@media (max-width: 360px) {
+  .news-swiper {
+    height: 180px;
   }
-
-  .adoption-grid {
+  .news-slide-content h2 {
+    font-size: 1rem;
+  }
+  .news-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* 📌 Standard phones */
+@media (min-width: 361px) and (max-width: 480px) {
+  .news-swiper {
+    height: 200px;
+  }
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 📌 Tablets */
+@media (min-width: 481px) and (max-width: 768px) {
+  .news-swiper {
+    height: 250px;
+  }
+  .news-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 📌 Small laptops and large tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .news-swiper {
+    height: 300px;
+  }
+  .news-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* 📌 Laptops and standard desktop computers */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  .news-swiper {
+    height: 350px;
+  }
+  .news-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* 📌 Large screens and wide monitors */
+@media (min-width: 1441px) {
+  .news-swiper {
+    height: 400px;
+  }
+  .news-grid {
+    grid-template-columns: repeat(5, 1fr);
   }
 }

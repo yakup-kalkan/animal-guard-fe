@@ -7,10 +7,18 @@ body {
   color: #333;
 }
 
+.layout {
+  display: flex;
+  height: 100vh; /* Tüm ekranı kaplasın */
+  overflow-x: hidden;
+}
+
 /* Main content outside the Navbar */
 .main-content {
-  margin-left: 300px; /* Shift the content by the width of the Navbar */
+  flex: 1;
+  /*margin-left: 300px;*/ /* Shift the content by the width of the Navbar */
   padding: 20px; /* Add some spacing inside the page content */
+  overflow-x: hidden;
 }
 
 h2 {
@@ -33,7 +41,7 @@ h2 {
 }
 
 .btn:hover {
-  background: #d88b18; /* darker yellow */
+  background: #b8e0d2;
   box-shadow: 0px 8px 15px rgba(244, 162, 27, 0.5);
   transform: scale(1.05);
 }
@@ -333,7 +341,7 @@ h2 {
 }
 
 /* Footer */
-.footer {
+/* .footer {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -346,4 +354,13 @@ h2 {
 
 .footer span {
   color: #1693db;
+} */
+.navbar-footer {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 12px 0;
+  text-align: center;
+  font-size: 14px;
+  color: #ffffff;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
 }

@@ -8,6 +8,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  position: sticky;
   padding-top: 20px;
   left: 0;
   top: 0;
@@ -88,39 +89,6 @@
   padding-left: 10px;
   padding-right: 10px;
   padding-bottom: 40px;
-}
-
-.btn {
-  padding: 12px 20px;
-  font-size: 15px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-}
-
-.btn-full {
-  background-color: #b8e0d2;
-  color: #1b4965;
-  font-weight: bold;
-  width: 100%;
-}
-
-.btn-secondary {
-  background: transparent;
-  border: 2px solid #b8e0d2;
-  color: #b8e0d2;
-}
-
-.btn-full:hover,
-.btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.2);
-  color: #ffffff;
-  transform: scale(1.05);
 }
 
 @media screen and (max-width: 768px) {

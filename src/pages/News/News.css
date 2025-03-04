@@ -13,7 +13,9 @@
 
 .news-swiper {
   width: 100%;
-  height: 300px; /* the height of the slider */
+  min-height: 500px; /* Minimum height */
+  max-height: 600px; /* Maximum height */
+  height: 440vw; /* Height due to screen width */
 }
 
 .news-slide {
@@ -53,10 +55,18 @@
   margin-top: 5px;
 }
 
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+  padding: 20px;
+}
+
 /* Section for the new details */
 .news-detail {
-  width: 100%;
-  max-width: 1000px;
+  width: 90%;
+  max-width: 600px;
   height: auto;
   margin: 20px auto;
   background: white;
@@ -116,4 +126,67 @@
   color: #444;
   margin-top: 20px;
   line-height: 1.5;
+}
+
+/* 📌 Small phones (e.g., iPhone SE) */
+@media (max-width: 360px) {
+  .news-swiper {
+    height: 180px;
+  }
+  .news-slide-content h2 {
+    font-size: 1rem;
+  }
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 📌 Standard phones */
+@media (min-width: 361px) and (max-width: 480px) {
+  .news-swiper {
+    height: 200px;
+  }
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 📌 Tablets */
+@media (min-width: 481px) and (max-width: 768px) {
+  .news-swiper {
+    height: 250px;
+  }
+  .news-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 📌 Small laptops and large tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .news-swiper {
+    height: 300px;
+  }
+  .news-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* 📌 Laptops and standard desktop computers */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  .news-swiper {
+    height: 350px;
+  }
+  .news-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* 📌 Large screens and wide monitors */
+@media (min-width: 1441px) {
+  .news-swiper {
+    height: 400px;
+  }
+  .news-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
 }

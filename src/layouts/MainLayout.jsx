@@ -1,10 +1,9 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../components/Navbar/Navbar";
-import Footer from "../components/Footer/Footer";
 
 function MainLayout() {
   return (
-    <div>
+    <div style={{ display: "flex" }}>
       <Navbar />
       <main className="main-content">
         <Outlet />

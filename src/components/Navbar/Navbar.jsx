@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { ToasterContext } from "../../context/ToasterContext";
 import "./Navbar.css";
-import Footer from "../Footer/Footer";
+import Footer from "../Footer";
 
 const Navbar = () => {
   const { user, isAuthenticated, logout } = useContext(AuthContext);
@@ -27,7 +27,7 @@ const Navbar = () => {
               <Link to="/admin" className="btn btn-full">
                 Dashboard
               </Link>
-              <button className="btn btn-secondary" onClick={logout}>
+              <button className="btn btn-full" onClick={logout}>
                 Logout
               </button>
             </>

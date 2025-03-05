@@ -1,23 +1,23 @@
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import "./App.css";
+import "./assets/css/styles/global.css";
 import MainLayout from "./layouts/MainLayout";
 import AdminLayout from "./layouts/AdminLayout";
-import Home from "./pages/Home/Home";
-import News from "./pages/News/News";
-import Adoption from "./pages/Adoption/Adoption";
-import LostPets from "./pages/LostPets/LostPets";
-import SuccessStories from "./pages/SuccessStories/SuccessStories";
-import Donations from "./pages/Donations/Donations";
-import About from "./pages/About/About";
-import Legal from "./pages/Legal/Legal";
-import Events from "./pages/Events/Events";
+import Home from "./pages/Home";
+import News from "./pages/News";
+import Adoption from "./pages/Adoption";
+import LostPets from "./pages/LostPets";
+import SuccessStories from "./pages/SuccessStories";
+import Donations from "./pages/Donations";
+import About from "./pages/About";
+import Legal from "./pages/Legal";
+import Events from "./pages/Events";
 
-import ManageNews from "./pages/Admin/ManageNews/ManageNews";
-import ManageAdoptions from "./pages/Admin/ManageAdoptions/ManageAdoptions";
-import ManageLostPets from "./pages/Admin/ManageLostPets/ManageLostPets";
-import ManageEvents from "./pages/Admin/ManageEvents/ManageEvents";
-import ManageUsers from "./pages/Admin/ManageUsers/ManageUsers";
+import ManageNews from "./pages/Admin/ManageNews";
+import ManageAdoptions from "./pages/Admin/ManageAdoptions";
+import ManageLostPets from "./pages/Admin/ManageLostPets";
+import ManageEvents from "./pages/Admin/ManageEvents";
+import ManageUsers from "./pages/Admin/ManageUsers";
 import Login from "./pages/Authentication/Login";
 import Signup from "./pages/Authentication/Signup";
 

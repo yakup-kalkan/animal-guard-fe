@@ -1,0 +1,21 @@
+/*Newsletter (undermost)*/
+.newsletter {
+  width: 100%;
+  padding: 30px;
+  text-align: center;
+  background: #f1f1f1;
+  margin-top: 30px;
+}
+
+.newsletter-input {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.newsletter-input input {
+  padding: 10px;
+  width: 250px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}

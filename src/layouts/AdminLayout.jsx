@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Navigate, Outlet, Link } from "react-router-dom";
-import "../pages/Admin/Dashboard/Dashboard.css";
+import "../assets/css/pages/Admin.css";
 
 const AdminLayout = () => {
   const { user, isAuthenticated } = useContext(AuthContext);

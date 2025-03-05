@@ -1,0 +1,145 @@
+/* Page Container */
+.success-story-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Page Title */
+.page-title {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+}
+
+/* Collage Grid */
+.page-collage {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 10px;
+  padding: 20px;
+}
+
+/* Story Card */
+.page-card {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.page-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.page-card:hover img {
+  transform: scale(1.1);
+}
+
+/* Overlay Text */
+.page-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+
+/* Different Collage Sizes */
+.collage-0 {
+  grid-column: span 3;
+  grid-row: span 2;
+}
+.collage-1 {
+  grid-column: span 2;
+  grid-row: span 1;
+}
+.collage-2 {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+.collage-3 {
+  grid-column: span 3;
+  grid-row: span 1;
+}
+.collage-4 {
+  grid-column: span 4;
+  grid-row: span 2;
+}
+.collage-5 {
+  grid-column: span 2;
+  grid-row: span 3;
+}
+
+/* Detail Page */
+.story-detail {
+  text-align: center;
+  padding: 20px;
+}
+
+.story-detail-image {
+  width: 100%;
+  max-width: 700px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.story-detail-content {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.story-detail-content h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.story-detail-content p {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+/* Back Button */
+.back-button {
+  background: #ff6b6b;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  transition: 0.3s;
+}
+
+.back-button:hover {
+  background: #ff4757;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .page-collage {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .collage-0,
+  .collage-1,
+  .collage-2,
+  .collage-3,
+  .collage-4,
+  .collage-5 {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+}

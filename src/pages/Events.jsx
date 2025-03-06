@@ -86,14 +86,16 @@ const Events = () => {
                 onClick={() => setSelectedEvent(event)}
               >
                 <img
+                  className="page-card-image"
                   src={event.picture || "/src/assets/img/default.png"}
                   alt={event.title}
-                  className="page-image"
                 />
-                <h2>{event.title}</h2>
-                <p className="page-description">
-                  {event.description.slice(0, 100)}...
-                </p>
+                <div className="page-card-content">
+                  <h2 className="page-card-title">{event.title}</h2>
+                  <p className="page-card-description">
+                    {event.description.slice(0, 100)}...
+                  </p>
+                </div>
               </div>
             ))}
           </div>
@@ -106,7 +108,7 @@ const Events = () => {
         <div className="page-detail">
           <div className="page-detail-header">
             <IoArrowBack
-              className="back-button"
+              className="page-back-button"
               onClick={() => setSelectedEvent(null)}
             />
             <h2>Event Details</h2>

@@ -87,17 +87,23 @@ const LostPets = () => {
               <div
                 key={pet.id}
                 className="page-card"
-                onClick={() => setSelectedPet(pet)}
+                onClick={() => setSelectedNews(pet)}
               >
                 <img
-                  src={pet.images || "/src/assets/img/default.png"}
-                  alt={pet.name}
-                  className="page-image"
+                  className="page-card-image"
+                  src={
+                    Array.isArray(pet.images) && pet.images.length > 0
+                      ? pet.images[0]
+                      : pet.images || "/src/assets/img/default.png"
+                  }
+                  alt={pet.title}
                 />
-                <h2>{pet.name}</h2>
-                <p className="page-description">
-                  {pet.description.slice(0, 100)}...
-                </p>
+                <div className="page-card-content">
+                  <h2 className="page-card-title">{pet.title}</h2>
+                  <p className="page-card-description">
+                    {pet.description.slice(0, 100)}...
+                  </p>
+                </div>
               </div>
             ))}
           </div>

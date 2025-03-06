@@ -146,11 +146,20 @@ const Adoption = () => {
                 onClick={() => setSelectedAdoption(adoption)}
               >
                 <img
-                  src={adoption.images?.[0] || "/src/assets/img/default.png"}
+                  className="page-card-image"
+                  src={
+                    Array.isArray(adoption.images) && adoption.images.length > 0
+                      ? adoption.images[0]
+                      : adoption.images || "/src/assets/img/default.png"
+                  }
                   alt={adoption.title}
                 />
-                <h2>{adoption.title}</h2>
-                <p>{adoption.description.slice(0, 100)}...</p>
+                <div className="page-card-content">
+                  <h2 className="page-card-title">{adoption.title}</h2>
+                  <p className="page-card-description">
+                    {adoption.description.slice(0, 100)}...
+                  </p>
+                </div>
               </div>
             ))}
           </div>
@@ -160,7 +169,7 @@ const Adoption = () => {
         <div className="page-detail">
           <div className="page-detail-header">
             <IoArrowBack
-              className="back-button"
+              className="page-back-button"
               onClick={() => setSelectedAdoption(null)}
             />
             <h2>Adoption Details</h2>

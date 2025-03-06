@@ -212,7 +212,7 @@ const ManageAdoptions = () => {
             Neutered
           </label>
           <button type="submit" className="save" disabled={loading}>
-            {editId ? "Update Post" : "Add Post"}
+            {editId ? "Update Adaption Data" : "Add New Adaption"}
           </button>
         </form>
       </div>

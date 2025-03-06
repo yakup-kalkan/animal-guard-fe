@@ -216,7 +216,7 @@ const SuccessStory = () => {
             {successStories.map((story) => (
               <div
                 key={story.id}
-                className={`page-card ${story.size}`}
+                className={`page-collage-card ${story.size}`}
                 onClick={() => setSelectedStory(story)}
               >
                 <img src={story.image} alt={story.title} />

@@ -200,14 +200,14 @@ const ManageEvents = () => {
                 </p>
                 <div className="actions">
                   <button
-                    className="btn-edit"
+                    className="edit"
                     onClick={() => handleEdit(item._id)}
                     disabled={loading}
                   >
                     Edit
                   </button>
                   <button
-                    className="btn-delete"
+                    className="delete"
                     onClick={() => handleDelete(item._id)}
                     disabled={loading}
                   >

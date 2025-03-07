@@ -134,6 +134,24 @@
   flex-grow: 1;
 }
 
+.page-card .arrow-icon {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 24px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  padding: 8px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.page-card:hover .arrow-icon {
+  opacity: 1;
+  transform: translateX(5px);
+}
+
 .page-close-button {
   position: absolute;
   top: 10px;
@@ -173,11 +191,40 @@
   cursor: pointer;
   margin-left: 10px;
 }
+.page-detail-swiper {
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 10px;
+}
 
 .page-detail-image {
   width: 100%;
-  aspect-ratio: 16/9;
+  height: 400px;
   object-fit: cover;
+  border-radius: 10px;
+}
+
+.page-thumbnails {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 20px;
+}
+
+.page-thumbnail {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.page-thumbnail:hover {
+  transform: scale(1.1);
+  border: 2px solid #007bff;
 }
 
 .page-detail-content {
@@ -322,12 +369,42 @@
   }
 }
 
-/* 📌 Large screens and wide monitors */
-@media (min-width: 1441px) {
+/* 📌 Large desktops and ultra-wide monitors */
+@media (min-width: 1441px) and (max-width: 1920px) {
   .page-swiper {
     height: 400px;
   }
   .page-grid {
     grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+/* 📌 Ultra-wide screens and 4K monitors */
+@media (min-width: 1921px) and (max-width: 2560px) {
+  .page-swiper {
+    height: 450px;
+  }
+  .page-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+/* 📌 5K and larger displays */
+@media (min-width: 2561px) and (max-width: 3840px) {
+  .page-swiper {
+    height: 500px;
+  }
+  .page-grid {
+    grid-template-columns: repeat(7, 1fr);
+  }
+}
+
+/* 📌 8K and beyond */
+@media (min-width: 3841px) {
+  .page-swiper {
+    height: 600px;
+  }
+  .page-grid {
+    grid-template-columns: repeat(8, 1fr);
   }
 }

@@ -211,16 +211,16 @@ const SuccessStory = () => {
     <div className="success-story-container">
       {!selectedStory ? (
         <>
-          <h1 className="page-title">Success Stories</h1>
-          <div className="page-collage">
+          <h1 className="story-title">Success Stories</h1>
+          <div className="story-collage">
             {successStories.map((story) => (
               <div
                 key={story.id}
-                className={`page-collage-card ${story.size}`}
+                className={`story-collage-card ${story.size}`}
                 onClick={() => setSelectedStory(story)}
               >
                 <img src={story.image} alt={story.title} />
-                <div className="page-overlay">
+                <div className="story-overlay">
                   <h2>{story.title}</h2>
                 </div>
               </div>

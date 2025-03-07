@@ -139,7 +139,7 @@ const ManageNews = () => {
                   className="image"
                 />
                 <h3>{item.title}</h3>
-                <p>{item.description}</p>
+                <p>{item.description.slice(0, 100)}...</p>
                 <div className="actions">
                   <button
                     className="edit"

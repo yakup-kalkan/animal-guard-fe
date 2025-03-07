@@ -185,7 +185,7 @@ const ManageEvents = () => {
                   className="image"
                 />
                 <h3>{item.title}</h3>
-                <p>{item.description}</p>
+                <p>{item.description.slice(0, 100)}...</p>
                 <p>
                   <strong>Time:</strong> {item.time}
                 </p>

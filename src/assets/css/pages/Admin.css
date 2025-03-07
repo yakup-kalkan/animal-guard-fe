@@ -1,4 +1,24 @@
 /*Dashboard Layout*/
+/* Dashboard Swiper */
+.dashboard-slider {
+  width: 100%;
+  /* height: 100vh; */
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 10px;
+  background: #cfd4d6;
+  /* border-radius: 10px; */
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: white;
+}
+
+.swiper-pagination-bullet {
+  background: white;
+}
+
 /* Admin Dashboard Genel Konteyner */
 .dashboard-container {
   padding: 40px 20px;
@@ -27,7 +47,6 @@
 .dashboard-card {
   background: #ffffff;
   padding: 20px;
-  border-radius: 12px;
   text-decoration: none;
   color: #333;
   text-align: center;
@@ -122,17 +141,19 @@
 
 /*Card */
 .card {
+  display: flex;
+  flex-direction: column;
   background: #fff;
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  padding: 15px;
+  cursor: pointer;
 }
 
 .image {
   width: 100%;
-  height: auto;
+  height: 200px;
   border-radius: 10px;
 }
 

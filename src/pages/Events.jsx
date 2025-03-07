@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { eventService } from "../services/api-service";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
-import { IoArrowBack } from "react-icons/io5";
+import { IoArrowBack, IoArrowForward } from "react-icons/io5";
 import Newsletter from "../components/Newsletter";
 
 import "swiper/css";
@@ -96,6 +96,8 @@ const Events = () => {
                     {event.description.slice(0, 100)}...
                   </p>
                 </div>
+                {/* Animation Ok */}
+                <IoArrowForward className="arrow-icon" />
               </div>
             ))}
           </div>

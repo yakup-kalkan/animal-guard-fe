@@ -1,7 +1,8 @@
+/* Navbar */
 .navbar {
   position: fixed;
-  width: 300px; /* Navbar width */
-  height: 100vh; /* Full screen height */
+  width: 300px;
+  height: 100vh;
   background: linear-gradient(180deg, #5fa8d3, #1b4965);
   color: #fff;
   display: flex;
@@ -49,14 +50,22 @@
   color: #b8e0d2;
 }
 
+/* Navigation Links */
+.nav-container {
+  position: relative;
+  width: 100%;
+}
+
 .nav-links {
   list-style: none;
   padding: 0;
   width: 100%;
+  position: relative;
 }
 
 .nav-links li {
   width: 100%;
+  position: relative;
 }
 
 .nav-links a {
@@ -73,9 +82,25 @@
   border-radius: 8px;
 }
 
+.nav-links a.active {
+  background: rgba(255, 255, 255, 0.25);
+  font-weight: bold;
+}
+
 .nav-links a:hover {
   background: rgba(255, 255, 255, 0.15);
   transform: scale(1.05);
+}
+
+/* Animated Arrow */
+.nav-arrow {
+  position: absolute;
+  left: 10px;
+  width: 10px;
+  height: 10px;
+  background: white;
+  border-radius: 50%;
+  transition: top 0.3s ease-in-out;
 }
 
 /* Auth Section */
@@ -111,19 +136,72 @@
   }
 }
 
-/* Language Section */
+/* Language Selector */
 .language-selector {
+  position: relative;
   margin-top: 20px;
   text-align: center;
 }
 
-.language-dropdown {
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
+.language-button {
+  background: white;
   border: 2px solid #b8e0d2;
-  background: #ffffff;
+  padding: 10px 15px;
+  border-radius: 8px;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.3s ease-in-out;
+}
+
+.language-button:hover {
+  background: #b8e0d2;
+}
+
+.language-button img {
+  width: 24px;
+  height: 16px;
+  border-radius: 3px;
+}
+
+/* Dropdown */
+.language-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: 1b4965;
+  border: 2px solid #b8e0d2;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  list-style: none;
+  padding: 10px;
+  width: 160px;
+  text-align: left;
+  z-index: 10;
+}
+
+.language-dropdown li {
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background 0.3s ease-in-out;
+}
+
+.language-dropdown li:hover {
+  background: #b8e0d2;
+}
+
+.language-dropdown img {
+  width: 24px;
+  height: 16px;
+  border-radius: 3px;
 }

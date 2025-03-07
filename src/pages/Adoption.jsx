@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { adoptionService } from "../services/api-service";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
-import { IoArrowBack } from "react-icons/io5";
+import { Navigation, Pagination, Autoplay, Thumbs } from "swiper/modules";
+import { IoArrowBack, IoArrowForward } from "react-icons/io5";
 import Slider from "react-slick";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import "swiper/css/thumbs";
 import "../assets/css/pages/Page.css";
 
 const Adoption = () => {
@@ -17,6 +16,7 @@ const Adoption = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedAdoption, setSelectedAdoption] = useState(null);
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   // Filters
   const [filters, setFilters] = useState({
@@ -71,6 +71,7 @@ const Adoption = () => {
       {!selectedAdoption ? (
         <>
           {/* Adoption Slider */}
+          {console.log(selectedAdoption)}
           <div className="page-slider-container">
             <Swiper
               modules={[Navigation, Pagination, Autoplay]}
@@ -160,6 +161,8 @@ const Adoption = () => {
                     {adoption.description.slice(0, 100)}...
                   </p>
                 </div>
+                {/* Animation Ok */}
+                <IoArrowForward className="arrow-icon" />
               </div>
             ))}
           </div>
@@ -174,23 +177,42 @@ const Adoption = () => {
             />
             <h2>Adoption Details</h2>
           </div>
-          <Slider
-            dots={true}
-            infinite={true}
-            speed={500}
-            slidesToShow={1}
-            slidesToScroll={1}
+          <Swiper
+            modules={[Navigation, Thumbs]}
+            navigation
+            thumbs={{ swiper: thumbsSwiper }}
+            className="page-detail-swiper"
           >
-            {selectedAdoption.images?.map((img, i) => (
-              <div key={i}>
+            {selectedAdoption.images?.map((image, index) => (
+              <SwiperSlide key={index}>
                 <img
-                  src={img}
-                  alt={`Image ${i}`}
+                  src={image}
+                  alt={`Slide ${index}`}
                   className="page-detail-image"
                 />
-              </div>
+              </SwiperSlide>
             ))}
-          </Slider>
+          </Swiper>
+
+          <Swiper
+            onSwiper={setThumbsSwiper}
+            spaceBetween={10}
+            slidesPerView={3}
+            freeMode
+            watchSlidesProgress
+            className="page-thumbnails"
+          >
+            {selectedAdoption.images?.map((image, index) => (
+              <SwiperSlide key={index}>
+                <img
+                  src={image}
+                  alt={`Thumbnail ${index}`}
+                  className="page-thumbnail"
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+
           <div className="page-detail-content">
             <h3>{selectedAdoption.title}</h3>
             <p className="page-detail-date">

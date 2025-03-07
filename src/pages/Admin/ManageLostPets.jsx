@@ -184,7 +184,7 @@ const ManageLostPets = () => {
                   className="image"
                 />
                 <h3>{item.title}</h3>
-                <p>{item.description}</p>
+                <p>{item.description.slice(0, 100)}...</p>
                 <p>Breed: {item.breed || "Unknown"}</p>
                 <p>Colour: {item.colour || "Unknown"}</p>
                 <p className="status">

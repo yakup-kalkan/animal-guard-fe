@@ -67,7 +67,7 @@ const LostPets = () => {
                   >
                     <img
                       src={
-                        Array.isArray(pet.imageUrls) && pet.images.length > 0
+                        Array.isArray(pet.imageUrls) && pet.imageUrls.length > 0
                           ? pet.imageUrls[0]
                           : pet.imageUrls || "/src/assets/img/default.png"
                       }
@@ -98,7 +98,7 @@ const LostPets = () => {
                 <img
                   className="page-card-image"
                   src={
-                    Array.isArray(pet.imageUrls) && pet.images.length > 0
+                    Array.isArray(pet.imageUrls) && pet.imageUrls.length > 0
                       ? pet.imageUrls[0]
                       : pet.imageUrls || "/src/assets/img/default.png"
                   }

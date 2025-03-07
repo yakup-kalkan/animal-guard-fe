@@ -150,7 +150,7 @@ const Adoption = () => {
                   className="page-card-image"
                   src={
                     Array.isArray(adoption.imageUrls) &&
-                    adoption.images.length > 0
+                    adoption.imageUrls.length > 0
                       ? adoption.imageUrls[0]
                       : adoption.imageUrls || "/src/assets/img/default.png"
                   }
@@ -187,7 +187,7 @@ const Adoption = () => {
             thumbs={{ swiper: thumbsSwiper }}
             className="page-detail-swiper"
           >
-            {selectedAdoption.images?.map((image, index) => (
+            {selectedAdoption.imageUrls?.map((image, index) => (
               <SwiperSlide key={index}>
                 <img
                   src={image}
@@ -206,7 +206,7 @@ const Adoption = () => {
             watchSlidesProgress
             className="page-thumbnails"
           >
-            {selectedAdoption.images?.map((image, index) => (
+            {selectedAdoption.imageUrls?.map((image, index) => (
               <SwiperSlide key={index}>
                 <img
                   src={image}

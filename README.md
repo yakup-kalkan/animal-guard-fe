@@ -6,4 +6,3 @@ Contributing
 
 License
 📝 MIT License
-

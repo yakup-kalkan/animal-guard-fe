@@ -9,7 +9,8 @@ const ManageLostPets = () => {
   const [formState, setFormState] = useState({
     title: "",
     description: "",
-    images: "",
+    imageUploads: [],
+    imageUrls: [],
     breed: "",
     colour: "",
     chipped: false,
@@ -70,7 +71,8 @@ const ManageLostPets = () => {
       setFormState({
         title: pet.title,
         description: pet.description,
-        images: pet.images,
+        imageUploads: pet.imageUploads,
+        imageUrls: pet.imageUrls,
         breed: pet.breed || "",
         colour: pet.colour || "",
         chipped: pet.chipped || false,
@@ -102,7 +104,8 @@ const ManageLostPets = () => {
     setFormState({
       title: "",
       description: "",
-      images: "",
+      imageUploads: [],
+      imageUrls: [],
       breed: "",
       colour: "",
       chipped: false,
@@ -135,7 +138,7 @@ const ManageLostPets = () => {
             type="text"
             name="images"
             placeholder="Image URLs (comma separated)"
-            value={formState.images}
+            value={formState.imageUrls}
             onChange={handleChange}
             required
           />
@@ -176,9 +179,9 @@ const ManageLostPets = () => {
               <div key={item._id} className="card">
                 <img
                   src={
-                    (Array.isArray(item.images)
-                      ? item.images[0]
-                      : item.images) || "https://via.placeholder.com/150"
+                    (Array.isArray(item.imageUrls)
+                      ? item.imageUrls[0]
+                      : item.imageUrls) || "https://via.placeholder.com/150"
                   }
                   alt={item.title}
                   className="image"

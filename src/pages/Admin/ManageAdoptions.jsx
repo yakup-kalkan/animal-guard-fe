@@ -23,7 +23,7 @@ const ManageAdoptions = () =>
   const [formState, setFormState] = useState({
     title: "",
     description: "",
-    images: [],
+    imageUploads: [],
     imageUrls: [],
     estimatedAge: "",
     birthDate: "",

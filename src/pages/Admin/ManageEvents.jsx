@@ -9,7 +9,8 @@ const ManageEvents = () => {
   const [formState, setFormState] = useState({
     title: "",
     description: "",
-    picture: "",
+    imageUploads: [],
+    imageUrls: [],
     time: "",
     date: "",
     location: "",
@@ -67,7 +68,8 @@ const ManageEvents = () => {
       setFormState({
         title: eventItem.title,
         description: eventItem.description,
-        picture: eventItem.picture,
+        imageUploads: eventItem.imageUploads,
+        imageUrls: eventItem.imageUrls,
         time: eventItem.time,
         date: eventItem.date,
         location: eventItem.location,
@@ -100,7 +102,8 @@ const ManageEvents = () => {
     setFormState({
       title: "",
       description: "",
-      picture: "",
+      imageUploads: [],
+      imageUrls: [],
       time: "",
       date: "",
       location: "",
@@ -134,7 +137,7 @@ const ManageEvents = () => {
             type="text"
             name="picture"
             placeholder="Image URL (optional)"
-            value={formState.picture}
+            value={formState.imageUrls}
             onChange={handleChange}
           />
           <input
@@ -180,7 +183,7 @@ const ManageEvents = () => {
             {events.map((item) => (
               <div key={item._id} className="card">
                 <img
-                  src={item.picture || "https://via.placeholder.com/150"}
+                  src={item.imageUrls || "https://via.placeholder.com/150"}
                   alt={item.title}
                   className="image"
                 />

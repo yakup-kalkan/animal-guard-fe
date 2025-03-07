@@ -11,7 +11,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../assets/css/pages/Page.css";
 
-const Adoption = () => {
+const Adoption = () =>
+{
   const [adoptions, setAdoptions] = useState([]);
   const [filteredAdoptions, setFilteredAdoptions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -33,9 +34,12 @@ const Adoption = () => {
   const [colours, setColours] = useState([]);
   const [ages, setAges] = useState([]);
 
-  useEffect(() => {
-    const fetchAdoptions = async () => {
-      try {
+  useEffect(() =>
+  {
+    const fetchAdoptions = async () =>
+    {
+      try
+      {
         const data = await adoptionService.getAll();
         setAdoptions(data);
         setFilteredAdoptions(data);
@@ -44,19 +48,24 @@ const Adoption = () => {
         setGenders([...new Set(data.map((a) => a.gender))]);
         setColours([...new Set(data.map((a) => a.colour))]);
         setAges([...new Set(data.map((a) => a.estimatedAge))]);
-      } catch (err) {
+      } catch (err)
+      {
         setError(err.message);
-      } finally {
+      } finally
+      {
         setLoading(false);
       }
     };
     fetchAdoptions();
   }, []);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     let filtered = adoptions;
-    Object.keys(filters).forEach((key) => {
-      if (filters[key]) {
+    Object.keys(filters).forEach((key) =>
+    {
+      if (filters[key])
+      {
         filtered = filtered.filter((a) => a[key] === filters[key]);
       }
     });
@@ -97,7 +106,7 @@ const Adoption = () => {
                   >
                     <img
                       src={
-                        adoption.images?.[0] || "/src/assets/img/default.png"
+                        adoption.imageUrls?.[0] || "/src/assets/img/default.png"
                       }
                       alt={adoption.title}
                       className="page-slide-image"
@@ -146,7 +155,7 @@ const Adoption = () => {
                 onClick={() => setSelectedAdoption(adoption)}
               >
                 <img
-                  src={adoption.images?.[0] || "/src/assets/img/default.png"}
+                  src={adoption.imageUrls?.[0] || "/src/assets/img/default.png"}
                   alt={adoption.title}
                 />
                 <h2>{adoption.title}</h2>
@@ -172,7 +181,7 @@ const Adoption = () => {
             slidesToShow={1}
             slidesToScroll={1}
           >
-            {selectedAdoption.images?.map((img, i) => (
+            {selectedAdoption.imageUrls?.map((img, i) => (
               <div key={i}>
                 <img
                   src={img}

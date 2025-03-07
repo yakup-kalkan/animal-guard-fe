@@ -69,7 +69,7 @@ const ManageAdoptions = () =>
     }));
   };
 
-  //* **Drag & Drop Bilder → `images[]`**
+  //* **Drag & Drop Bilder → `imageUploads[]`**
   const handleImageUpload = useCallback((acceptedFiles) =>
   {
     const validImages = acceptedFiles.filter(file =>
@@ -84,7 +84,7 @@ const ManageAdoptions = () =>
     const newImageUrls = validImages.map((file) => URL.createObjectURL(file));
     setFormState((prev) => ({
       ...prev,
-      images: [...prev.images, ...newImageUrls], //? Bilder hier speichern
+      imageUrls: [...prev.imageUrls, ...newImageUrls], //? Bilder hier speichern
     }));
   }, []);
 
@@ -197,7 +197,7 @@ const ManageAdoptions = () =>
           </div>
 
           <div className="image-preview">
-            {formState.images.map((img, index) => (
+            {formState.imageUploads.map((img, index) => (
               <div key={index} className="image-item">
                 <img src={img} alt={`Uploaded ${index}`} />
               </div>
@@ -300,7 +300,7 @@ const ManageAdoptions = () =>
             {adoptionPosts.map((item) => (
               <div key={item._id} className="card">
                 {/* Zeigt bevorzugt `imageUrls`, dann `images` */}
-                <img src={item.imageUrls?.[0] || item.images?.[0] || "https://scontent-fra3-1.cdninstagram.com/v/t51.29350-15/472409551_559710720370933_6488124466399928968_n.heic?stp=dst-jpg_e35_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xNDQweDE0NDAuc2RyLmYyOTM1MC5kZWZhdWx0X2ltYWdlIn0&_nc_ht=scontent-fra3-1.cdninstagram.com&_nc_cat=101&_nc_oc=Q6cZ2AHzJBKxWSqoWgktjjJHj7lXDNRyd-MTZYniyPYor9c1xOMd_tzoc_ypr73KmKcDD20&_nc_ohc=GKoWWnGE4LgQ7kNvgH6CzCI&_nc_gid=753d2114c0c44fa68ba65385621411be&edm=AP4sbd4BAAAA&ccb=7-5&ig_cache_key=MzUzNzMwOTAxMzc3MjY4OTY0Nw%3D%3D.3-ccb7-5&oh=00_AYFFwo9_Xx8BenTRQGYEfKPvRULHlcBkqv10dxMBy6qE5g&oe=67CFE618&_nc_sid=7a9f4b"}
+                <img src={item.imageUrls?.[0] || item.imageUrls?.[0] || "https://scontent-fra3-1.cdninstagram.com/v/t51.29350-15/472409551_559710720370933_6488124466399928968_n.heic?stp=dst-jpg_e35_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xNDQweDE0NDAuc2RyLmYyOTM1MC5kZWZhdWx0X2ltYWdlIn0&_nc_ht=scontent-fra3-1.cdninstagram.com&_nc_cat=101&_nc_oc=Q6cZ2AHzJBKxWSqoWgktjjJHj7lXDNRyd-MTZYniyPYor9c1xOMd_tzoc_ypr73KmKcDD20&_nc_ohc=GKoWWnGE4LgQ7kNvgH6CzCI&_nc_gid=753d2114c0c44fa68ba65385621411be&edm=AP4sbd4BAAAA&ccb=7-5&ig_cache_key=MzUzNzMwOTAxMzc3MjY4OTY0Nw%3D%3D.3-ccb7-5&oh=00_AYFFwo9_Xx8BenTRQGYEfKPvRULHlcBkqv10dxMBy6qE5g&oe=67CFE618&_nc_sid=7a9f4b"}
                   alt={item.title} className="image" />
 
                 <h3>{item.title}</h3>

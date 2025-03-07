@@ -8,7 +8,8 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "../assets/css/pages/Page.css";
 
-const ReportLostPet = () => {
+const ReportLostPet = () =>
+{
   return (
     <section className="report-lost-pet">
       <h2>Report a Lost Pet</h2>
@@ -18,20 +19,26 @@ const ReportLostPet = () => {
   );
 };
 
-const LostPets = () => {
+const LostPets = () =>
+{
   const [lostPets, setLostPets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedPet, setSelectedPet] = useState(null);
 
-  useEffect(() => {
-    const fetchLostPets = async () => {
-      try {
+  useEffect(() =>
+  {
+    const fetchLostPets = async () =>
+    {
+      try
+      {
         const data = await missingService.getAll();
         setLostPets(data);
-      } catch (err) {
+      } catch (err)
+      {
         setError(err.message);
-      } finally {
+      } finally
+      {
         setLoading(false);
       }
     };
@@ -64,7 +71,7 @@ const LostPets = () => {
                     onClick={() => setSelectedPet(pet)}
                   >
                     <img
-                      src={pet.images || "/src/assets/img/default.png"}
+                      src={pet.imageUrls || "/src/assets/img/default.png"}
                       alt={pet.name}
                       className="page-slide-image"
                     />
@@ -90,7 +97,7 @@ const LostPets = () => {
                 onClick={() => setSelectedPet(pet)}
               >
                 <img
-                  src={pet.images || "/src/assets/img/default.png"}
+                  src={pet.imageUrls || "/src/assets/img/default.png"}
                   alt={pet.name}
                   className="page-image"
                 />
@@ -113,7 +120,7 @@ const LostPets = () => {
             <h2>Lost Pet Details</h2>
           </div>
           <img
-            src={selectedPet.images || "/src/assets/img/default.png"}
+            src={selectedPet.imageUrls || "/src/assets/img/default.png"}
             alt={selectedPet.name}
             className="page-detail-image"
           />

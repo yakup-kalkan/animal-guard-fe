@@ -10,20 +10,26 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "../assets/css/pages/Page.css";
 
-const Events = () => {
+const Events = () =>
+{
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
 
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
+  useEffect(() =>
+  {
+    const fetchEvents = async () =>
+    {
+      try
+      {
         const data = await eventService.getAll();
         setEvents(data);
-      } catch (err) {
+      } catch (err)
+      {
         setError(err.message);
-      } finally {
+      } finally
+      {
         setLoading(false);
       }
     };
@@ -63,7 +69,7 @@ const Events = () => {
                     onClick={() => setSelectedEvent(event)}
                   >
                     <img
-                      src={event.picture || "/src/assets/img/default.png"}
+                      src={event.imageUrls || "/src/assets/img/default.png"}
                       alt={event.title}
                       className="page-slide-image"
                     />
@@ -86,7 +92,7 @@ const Events = () => {
                 onClick={() => setSelectedEvent(event)}
               >
                 <img
-                  src={event.picture || "/src/assets/img/default.png"}
+                  src={event.imageUrls || "/src/assets/img/default.png"}
                   alt={event.title}
                   className="page-image"
                 />
@@ -112,7 +118,7 @@ const Events = () => {
             <h2>Event Details</h2>
           </div>
           <img
-            src={selectedEvent.picture || "/src/assets/img/default.png"}
+            src={selectedEvent.imageUrls || "/src/assets/img/default.png"}
             alt={selectedEvent.title}
             className="page-detail-image"
           />

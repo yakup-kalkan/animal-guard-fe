@@ -10,20 +10,26 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "../assets/css/pages/Page.css";
 
-const News = () => {
+const News = () =>
+{
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedNews, setSelectedNews] = useState(null);
 
-  useEffect(() => {
-    const fetchNews = async () => {
-      try {
+  useEffect(() =>
+  {
+    const fetchNews = async () =>
+    {
+      try
+      {
         const data = await newsService.getAll();
         setNews(data);
-      } catch (err) {
+      } catch (err)
+      {
         setError(err.message);
-      } finally {
+      } finally
+      {
         setLoading(false);
       }
     };
@@ -63,7 +69,7 @@ const News = () => {
                     onClick={() => setSelectedNews(newsItem)}
                   >
                     <img
-                      src={newsItem.picture || "/src/assets/img/default.png"}
+                      src={newsItem.imageUrls || "/src/assets/img/default.png"}
                       alt={newsItem.title}
                       className="page-slide-image"
                     />
@@ -86,7 +92,7 @@ const News = () => {
                 onClick={() => setSelectedNews(newsItem)}
               >
                 <img
-                  src={newsItem.picture || "/src/assets/img/default.png"}
+                  src={newsItem.imageUrls || "/src/assets/img/default.png"}
                   alt={newsItem.title}
                   className="page-image"
                 />
@@ -111,7 +117,7 @@ const News = () => {
             <h2>News Details</h2>
           </div>
           <img
-            src={selectedNews.picture || "/src/assets/img/default.png"}
+            src={selectedNews.imageUrls || "/src/assets/img/default.png"}
             alt={selectedNews.title}
             className="page-detail-image"
           />

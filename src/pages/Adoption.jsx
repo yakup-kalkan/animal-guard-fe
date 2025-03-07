@@ -98,7 +98,7 @@ const Adoption = () => {
                   >
                     <img
                       src={
-                        adoption.images?.[0] || "/src/assets/img/default.png"
+                        adoption.imageUrls?.[0] || "/src/assets/img/default.png"
                       }
                       alt={adoption.title}
                       className="page-slide-image"

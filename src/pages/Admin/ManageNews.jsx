@@ -9,7 +9,8 @@ const ManageNews = () => {
   const [formState, setFormState] = useState({
     title: "",
     description: "",
-    picture: "",
+    imageUploads: [],
+    imageUrls: [],
   });
   const [editId, setEditId] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -63,7 +64,7 @@ const ManageNews = () => {
       setFormState({
         title: newsItem.title,
         description: newsItem.description,
-        picture: newsItem.picture,
+        imageUrls: newsItem.imageUrls,
       });
       setEditId(id);
     } catch (error) {
@@ -89,7 +90,7 @@ const ManageNews = () => {
   };
 
   const resetForm = () => {
-    setFormState({ title: "", description: "", picture: "" });
+    setFormState({ title: "", description: "", imageUrls: "" });
     setEditId(null);
   };
 
@@ -118,7 +119,7 @@ const ManageNews = () => {
             type="text"
             name="picture"
             placeholder="Image URL (optional)"
-            value={formState.picture}
+            value={formState.imageUrls}
             onChange={handleChange}
           />
           <button type="submit" className="save" disabled={loading}>
@@ -134,7 +135,7 @@ const ManageNews = () => {
             {news.map((item) => (
               <div key={item._id} className="card">
                 <img
-                  src={item.picture || "https://via.placeholder.com/150"}
+                  src={item.imageUrls || "https://via.placeholder.com/150"}
                   alt={item.title}
                   className="image"
                 />

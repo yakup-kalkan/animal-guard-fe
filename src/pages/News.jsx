@@ -63,7 +63,7 @@ const News = () => {
                     onClick={() => setSelectedNews(newsItem)}
                   >
                     <img
-                      src={newsItem.picture || "/src/assets/img/default.png"}
+                      src={newsItem.imageUrls || "/src/assets/img/default.png"}
                       alt={newsItem.title}
                       className="page-slide-image"
                     />
@@ -88,8 +88,7 @@ const News = () => {
                 onClick={() => setSelectedNews(newsItem)}
               >
                 <img
-                  className="page-card-image"
-                  src={newsItem.picture || "/src/assets/img/default.png"}
+                  src={newsItem.imageUrls || "/src/assets/img/default.png"}
                   alt={newsItem.title}
                 />
                 <div className="page-card-content">
@@ -117,7 +116,7 @@ const News = () => {
             <h2>News Details</h2>
           </div>
           <img
-            src={selectedNews.picture || "/src/assets/img/default.png"}
+            src={selectedNews.imageUrls || "/src/assets/img/default.png"}
             alt={selectedNews.title}
             className="page-detail-image"
           />

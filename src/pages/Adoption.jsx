@@ -149,9 +149,10 @@ const Adoption = () => {
                 <img
                   className="page-card-image"
                   src={
-                    Array.isArray(adoption.images) && adoption.images.length > 0
-                      ? adoption.images[0]
-                      : adoption.images || "/src/assets/img/default.png"
+                    Array.isArray(adoption.imageUrls) &&
+                    adoption.images.length > 0
+                      ? adoption.imageUrls[0]
+                      : adoption.imageUrls || "/src/assets/img/default.png"
                   }
                   alt={adoption.title}
                 />

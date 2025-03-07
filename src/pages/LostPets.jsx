@@ -122,7 +122,10 @@ const LostPets = () => {
           <div className="page-detail-header">
             <IoArrowBack
               className="page-back-button"
-              onClick={() => setSelectedPet(null)}
+              onClick={() => {
+                setSelectedPet(null);
+                setThumbsSwiper(null);
+              }}
             />
             <h2>Lost Pet Details</h2>
           </div>

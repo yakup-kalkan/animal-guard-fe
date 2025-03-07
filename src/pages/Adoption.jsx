@@ -173,7 +173,10 @@ const Adoption = () => {
           <div className="page-detail-header">
             <IoArrowBack
               className="page-back-button"
-              onClick={() => setSelectedAdoption(null)}
+              onClick={() => {
+                setSelectedAdoption(null);
+                setThumbsSwiper(null);
+              }}
             />
             <h2>Adoption Details</h2>
           </div>

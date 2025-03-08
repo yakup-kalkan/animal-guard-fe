@@ -11,11 +11,9 @@ const api = axios.create({
 
 //* Interceptor für Authentifizierung
 api.interceptors.request.use(
-  (config) =>
-  {
+  (config) => {
     const token = localStorage.getItem("token");
-    if (token)
-    {
+    if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
@@ -24,17 +22,13 @@ api.interceptors.request.use(
 );
 
 //* Request-Handler mit Unterstützung für Datei-Uploads (`imageUploads`)
-const handleRequest = async (request, isFileUpload = false) =>
-{
-  try
-  {
+const handleRequest = async (request, isFileUpload = false) => {
+  try {
     const response = await request();
     return response.data;
-  } catch (error)
-  {
+  } catch (error) {
     console.error("API Fehler:", error.response?.data || error.message);
-    if (error.response?.status === 401)
-    {
+    if (error.response?.status === 401) {
       logoutUser();
     }
     throw error;
@@ -42,17 +36,18 @@ const handleRequest = async (request, isFileUpload = false) =>
 };
 
 //* Automatische Erkennung von Datei-Uploads
-const preparePayload = (data) =>
-{
-  if (data.imageUploads && data.imageUploads.length > 0)
-  {
+const preparePayload = (data) => {
+  if (data.imageUploads && data.imageUploads.length > 0) {
     const formData = new FormData();
 
     // **Bilder hinzufügen**
     data.imageUploads.forEach((file) => formData.append("imageUploads", file));
 
     // **Restliche Daten als JSON**
-    formData.append("data", JSON.stringify({ ...data, imageUploads: undefined }));
+    formData.append(
+      "data",
+      JSON.stringify({ ...data, imageUploads: undefined })
+    );
 
     return { payload: formData, isFileUpload: true };
   }
@@ -61,8 +56,7 @@ const preparePayload = (data) =>
 };
 
 //* 🔐 Authentifizierung & Login Services
-export const loginUser = async (email, password) =>
-{
+export const loginUser = async (email, password) => {
   const data = await handleRequest(() =>
     api.post("/auth/login", { email, password })
   );
@@ -71,8 +65,7 @@ export const loginUser = async (email, password) =>
   return data;
 };
 
-export const logoutUser = () =>
-{
+export const logoutUser = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("isAdmin");
 };
@@ -82,8 +75,7 @@ export const isAuthenticated = () => !!localStorage.getItem("token");
 export const isAdmin = () => localStorage.getItem("isAdmin") === "true";
 
 //* 📸 Generische Funktion für Datei-Uploads
-const postWithFile = async (url, data) =>
-{
+const postWithFile = async (url, data) => {
   const { payload, isFileUpload } = preparePayload(data);
   return handleRequest(() =>
     api.post(url, payload, {
@@ -137,9 +129,16 @@ export const userService = {
   delete: (id) => handleRequest(() => api.delete(`/users/${id}`)),
 };
 
+export const storyService = {
+  create: (data) => handleRequest(() => api.post("/story", data)),
+  getAll: () => handleRequest(() => api.get("/story")),
+  getById: (id) => handleRequest(() => api.get(`/story/${id}`)),
+  update: (id, data) => handleRequest(() => api.put(`/story/${id}`, data)),
+  delete: (id) => handleRequest(() => api.delete(`/story/${id}`)),
+};
+
 export const uploadService = {
-  uploadImages: (files) =>
-  {
+  uploadImages: (files) => {
     const formData = new FormData();
     files.forEach((file) => formData.append("imageUploads", file));
 

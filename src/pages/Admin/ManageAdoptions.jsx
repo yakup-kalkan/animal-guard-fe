@@ -268,8 +268,8 @@ const ManageAdoptions = () => {
             ))}
           </div>
 
-          {/* Externe Bild-URLs */}
-          <button type="button" onClick={handleImageUrlAdd}>
+          {/* **Externe Bild-URLs** */}
+          <button type="button" className="add-url" onClick={handleImageUrlAdd}>
             + Add Image URL
           </button>
 
@@ -329,7 +329,6 @@ const ManageAdoptions = () => {
 
           {/* Special Features */}
           <div>
-            <label>Special Features:</label>
             {formState.specialFeatures.map((feature, index) => (
               <div key={index} className="feature-item">
                 <h4>Special Feature {index + 1}</h4>
@@ -352,6 +351,7 @@ const ManageAdoptions = () => {
                 />
                 <button
                   type="button"
+                  className="remove-url"
                   onClick={() => removeSpecialFeature(index)}
                 >
                   ✖
@@ -363,27 +363,26 @@ const ManageAdoptions = () => {
                 <option key={i} value={suggestion} />
               ))}
             </datalist>
-            <button type="button" onClick={addSpecialFeature}>
+            <button
+              type="button"
+              className="add-feature"
+              onClick={addSpecialFeature}
+            >
               + Add Feature
             </button>
           </div>
 
           {/* Boolean Felder mit Yes/No Anzeige */}
           {["vaccinated", "chipped", "neutered"].map((field) => (
-            <div key={field} className="boolean-field">
-              <label htmlFor={field} className="boolean-label">
-                {field.charAt(0).toUpperCase() + field.slice(1)}:
-              </label>
-              <select
-                id={field}
-                name={field}
-                value={formState[field]}
-                onChange={handleChange}
-              >
-                <option value="true">Yes</option>
-                <option value="false">No</option>
-              </select>
-            </div>
+            <select
+              key={field}
+              name={field}
+              value={formState[field]}
+              onChange={handleChange}
+            >
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
           ))}
 
           <button type="submit" className="save" disabled={loading}>
@@ -399,70 +398,19 @@ const ManageAdoptions = () => {
           <div className="list">
             {adoptionPosts.map((item) => (
               <div key={item._id} className="card">
-                {/* Bevorzugt imageUrls (externe Bilder), dann imageUploads (lokale Bilder), sonst Standardbild */}
+                {/* Zeigt bevorzugt `imageUrls`, dann `images` */}
                 <img
                   src={
-                    item.imageUrls?.length > 0
-                      ? item.imageUrls[0]
-                      : item.imageUploads?.length > 0
-                      ? `${API_BASE_URL.replace("/api", "")}${
-                          item.imageUploads[0]
-                        }`
-                      : "/src/assets/img/default.png"
+                    item.imageUrls?.[0] ||
+                    item.imageUrls?.[0] ||
+                    "https://scontent-fra3-1.cdninstagram.com/v/t51.29350-15/472409551_559710720370933_6488124466399928968_n.heic?stp=dst-jpg_e35_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xNDQweDE0NDAuc2RyLmYyOTM1MC5kZWZhdWx0X2ltYWdlIn0&_nc_ht=scontent-fra3-1.cdninstagram.com&_nc_cat=101&_nc_oc=Q6cZ2AHzJBKxWSqoWgktjjJHj7lXDNRyd-MTZYniyPYor9c1xOMd_tzoc_ypr73KmKcDD20&_nc_ohc=GKoWWnGE4LgQ7kNvgH6CzCI&_nc_gid=753d2114c0c44fa68ba65385621411be&edm=AP4sbd4BAAAA&ccb=7-5&ig_cache_key=MzUzNzMwOTAxMzc3MjY4OTY0Nw%3D%3D.3-ccb7-5&oh=00_AYFFwo9_Xx8BenTRQGYEfKPvRULHlcBkqv10dxMBy6qE5g&oe=67CFE618&_nc_sid=7a9f4b"
                   }
-                  alt={item.title || "Adoption Image"}
+                  alt={item.title}
                   className="image"
-                  onError={(e) => {
-                    e.target.src = "/src/assets/img/default.png";
-                  }}
                 />
 
-                <h3>{item.title || "Untitled"}</h3>
-                <Markdown>
-                  {item.description || "No description available."}
-                </Markdown>
-                <button onClick={() => handleEdit(item)}>Edit</button>
-                <button onClick={() => handleDelete(item._id)}>Delete</button>
-                <p>Estimated Age: {item.estimatedAge || "Unknown"}</p>
-                <p>
-                  Birth Date:{" "}
-                  {item.birthDate
-                    ? new Date(item.birthDate).toLocaleDateString()
-                    : "Unknown"}
-                </p>
-                <p>Breed: {item.breed || "Unknown"}</p>
-                <p>Colour: {item.colour || "Unknown"}</p>
-                <p>Gender: {item.gender || "Unknown"}</p>
-
-                <p>Special Features:</p>
-                {item.specialFeatures &&
-                Object.keys(item.specialFeatures).length > 0 ? (
-                  <ul>
-                    {Object.entries(item.specialFeatures).map(
-                      ([key, value]) => (
-                        <li key={key}>
-                          <strong>{key}:</strong> {value}
-                        </li>
-                      )
-                    )}
-                  </ul>
-                ) : (
-                  <p>No special features listed.</p>
-                )}
-
-                <p>
-                  Created At:{" "}
-                  {item.createdAt
-                    ? new Date(item.createdAt).toLocaleString()
-                    : "Unknown"}
-                </p>
-                <p>
-                  Updated At:{" "}
-                  {item.updatedAt
-                    ? new Date(item.updatedAt).toLocaleString()
-                    : "Unknown"}
-                </p>
-
+                <h3>{item.title}</h3>
+                <Markdown>{item.description}</Markdown>
                 <p>Vaccinated: {item.vaccinated ? "Yes" : "No"}</p>
                 <p>Chipped: {item.chipped ? "Yes" : "No"}</p>
                 <p>Neutered: {item.neutered ? "Yes" : "No"}</p>

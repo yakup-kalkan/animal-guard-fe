@@ -18,6 +18,7 @@ import ManageAdoptions from "./pages/Admin/ManageAdoptions";
 import ManageLostPets from "./pages/Admin/ManageLostPets";
 import ManageEvents from "./pages/Admin/ManageEvents";
 import ManageUsers from "./pages/Admin/ManageUsers";
+import ManageStories from "./pages/Admin/ManageStories";
 import Login from "./pages/Authentication/Login";
 import Signup from "./pages/Authentication/Signup";
 
@@ -45,6 +46,7 @@ function App() {
           <Route path="manage-events" element={<ManageEvents />} />
           <Route path="manage-lostpets" element={<ManageLostPets />} />
           <Route path="manage-adoptions" element={<ManageAdoptions />} />
+          <Route path="manage-stories" element={<ManageStories />} />
           <Route path="manage-users" element={<ManageUsers />} />
         </Route>
         {/* NOT FOUND */}

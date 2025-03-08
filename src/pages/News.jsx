@@ -90,6 +90,7 @@ const News = () => {
                 <img
                   src={newsItem.imageUrls || "/src/assets/img/default.png"}
                   alt={newsItem.title}
+                  className="page-card-image"
                 />
                 <div className="page-card-content">
                   <h2 className="page-card-title">{newsItem.title}</h2>

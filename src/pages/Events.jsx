@@ -88,6 +88,7 @@ const Events = () => {
                 <img
                   src={event.imageUrls || "/src/assets/img/default.png"}
                   alt={event.title}
+                  className="page-card-image"
                 />
                 <div className="page-card-content">
                   <h2 className="page-card-title">{event.title}</h2>

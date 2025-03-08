@@ -68,7 +68,7 @@ const ContentSection = () => {
   return (
     <section className="content-section">
       <div className="content-container">
-        <div className="text-section top-left">
+        <div className="text-section">
           <h2>{t("home", "why_pet_care_matters_title")}</h2>
           <p>{t("home", "why_pet_care_matters_text")}</p>
         </div>
@@ -103,18 +103,13 @@ const ContentSection = () => {
               />
             </SwiperSlide>
           </Swiper>
-          <div className="video-overlay">
-            <video controls autoPlay muted className="content-video">
-              <source
-                src="/src/assets/vid/14615296-uhd_3840_2160_50fps.mp4"
-                type="video/mp4"
-              />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        </div>
-        <div className="text-section bottom-right">
-          <p>{t("home", "additional_pet_care_info")}</p>
+          <video controls autoPlay muted className="content-video">
+            <source
+              src="/src/assets/vid/14615296-uhd_3840_2160_50fps.mp4"
+              type="video/mp4"
+            />
+            Your browser does not support the video tag.
+          </video>
         </div>
       </div>
     </section>

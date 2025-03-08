@@ -7,6 +7,18 @@
   text-align: center;
 }
 
+/* Für Boolean Anzeige ManageAdoptions*/
+.boolean-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.boolean-label {
+  font-weight: bold;
+}
+
 /* Dashboard Başlık */
 .dashboard-container h2 {
   font-size: 32px;

@@ -4,6 +4,7 @@ import { adoptionService } from "../../services/api-service";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useDropzone } from "react-dropzone";
+import axios from "axios";
 import "../../assets/css/pages/Admin.css";
 
 const specialFeatureSuggestions = [
@@ -15,6 +16,8 @@ const specialFeatureSuggestions = [
   "Sehr aktiv:",
   "Braucht viel Pflege:"
 ];
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const ManageAdoptions = () =>
 {
@@ -69,7 +72,7 @@ const ManageAdoptions = () =>
     }));
   };
 
-  //* **Drag & Drop Bilder → `imageUploads[]`**
+  //* Drag & Drop für lokale Bilder (`imageUploads`)
   const handleImageUpload = useCallback((acceptedFiles) =>
   {
     const validImages = acceptedFiles.filter(file =>
@@ -81,36 +84,34 @@ const ManageAdoptions = () =>
       toaster.error("Invalid file type detected! Please upload only images.");
     }
 
-    const newImageUrls = validImages.map((file) => URL.createObjectURL(file));
     setFormState((prev) => ({
       ...prev,
-      imageUrls: [...prev.imageUrls, ...newImageUrls], //? Bilder hier speichern
+      imageUploads: [...prev.imageUploads, ...validImages],
     }));
   }, []);
 
-  //* **Externe Bild-URLs → `imageUrls[]`**
+  //* Externe Bild-URLs (`imageUrls`) hinzufügen
   const handleImageUrlAdd = () =>
   {
     setFormState((prev) => ({
       ...prev,
-      imageUrls: [...prev.imageUrls, ""], //? Leeres Feld hinzufügen
+      imageUrls: [...prev.imageUrls, ""],
     }));
   };
 
-  //* Aktualisiert eine spezifische Bild-URL
+  //* Bild-URL aktualisieren
   const handleImageUrlChange = (index, value) =>
   {
     setFormState((prev) =>
     {
-      if (prev.imageUrls[index] === value) return prev; //? Keine Aktualisierung nötig
+      if (prev.imageUrls[index] === value) return prev;
       const updatedImageUrls = [...prev.imageUrls];
       updatedImageUrls[index] = value;
       return { ...prev, imageUrls: updatedImageUrls };
     });
   };
 
-
-  //* Drag & Drop
+  //* Dropzone für lokale Bilder
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: handleImageUpload,
     accept: {
@@ -150,34 +151,102 @@ const ManageAdoptions = () =>
     }));
   };
 
-  //* Submit Form
+  //* Formular abschicken
   const handleSubmit = async (e) =>
   {
     e.preventDefault();
     setLoading(true);
+
     try
     {
+      let uploadedImages = [];
+
+      if (formState.imageUploads.length > 0)
+      {
+        const formData = new FormData();
+        formState.imageUploads.forEach((file) => formData.append("imageUploads", file));
+
+        const response = await axios.post(`${API_BASE_URL}/upload`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+
+        uploadedImages = response.data;
+      }
+
+      const adoptionData = {
+        ...formState,
+        imageUploads: uploadedImages,
+        specialFeatures: Object.fromEntries(
+          formState.specialFeatures.map(({ key, value }) => [key, value])
+        ),
+      };
+
       if (editId)
       {
-        await adoptionService.update(editId, formState);
+        await adoptionService.update(editId, adoptionData);
         toaster.success("Adoption post updated successfully!");
       } else
       {
-        await adoptionService.create(formState);
+        await adoptionService.create(adoptionData);
         toaster.success("Adoption post added successfully!");
       }
+
       resetForm();
       fetchAdoptionPosts();
-    }
-    catch (error)
+    } catch (error)
     {
       toaster.error("An error occurred while saving the adoption post!");
       console.error(error);
-    }
-    finally
+    } finally
     {
       setLoading(false);
     }
+  };
+
+  //* Adoptionseintrag bearbeiten
+  const handleEdit = (post) =>
+  {
+    setFormState(post);
+    setEditId(post._id);
+  };
+
+  //* Adoptionseintrag löschen
+  const handleDelete = async (id) =>
+  {
+    setLoading(true);
+    try
+    {
+      await adoptionService.delete(id);
+      toaster.success("Adoption post deleted successfully!");
+      fetchAdoptionPosts();
+    } catch (error)
+    {
+      toaster.error("An error occurred while deleting the adoption post!");
+      console.error(error);
+    } finally
+    {
+      setLoading(false);
+    }
+  };
+
+  const resetForm = () =>
+  {
+    setFormState({
+      title: "",
+      description: "",
+      imageUploads: [],
+      imageUrls: [],
+      estimatedAge: "",
+      birthDate: "",
+      breed: "",
+      colour: "",
+      gender: "",
+      specialFeatures: [],
+      vaccinated: false,
+      chipped: false,
+      neutered: false,
+    });
+    setEditId(null);
   };
 
   return (
@@ -190,21 +259,22 @@ const ManageAdoptions = () =>
           <textarea name="description" placeholder="Description (Markdown supported)" value={formState.description} onChange={handleChange} required />
           <Markdown remarkPlugins={[remarkGfm]}>{formState.description}</Markdown>
 
-          {/* **Lokale Bilder (Drag & Drop)** */}
+          {/* Drag & Drop für lokale Bilder */}
           <div {...getRootProps()} className="dropzone">
             <input {...getInputProps()} />
             <p>Drag & drop images here, or click to select</p>
           </div>
 
+          {/* Vorschau hochgeladener Bilder */}
           <div className="image-preview">
-            {formState.imageUploads.map((img, index) => (
+            {formState.imageUploads.map((file, index) => (
               <div key={index} className="image-item">
-                <img src={img} alt={`Uploaded ${index}`} />
+                <img src={URL.createObjectURL(file)} alt={`Uploaded ${index}`} />
               </div>
             ))}
           </div>
 
-          {/* **Externe Bild-URLs** */}
+          {/* Externe Bild-URLs */}
           <button type="button" onClick={handleImageUrlAdd}>+ Add Image URL</button>
 
           {formState.imageUrls.map((url, index) => (
@@ -214,33 +284,10 @@ const ManageAdoptions = () =>
             </div>
           ))}
 
-          <input
-            type="text"
-            name="estimatedAge"
-            placeholder="Estimated Age"
-            value={formState.estimatedAge}
-            onChange={handleChange}
-          />
-          <input
-            type="date"
-            name="birthDate"
-            value={formState.birthDate}
-            onChange={handleChange}
-          />
-          <input
-            type="text"
-            name="breed"
-            placeholder="Breed"
-            value={formState.breed}
-            onChange={handleChange}
-          />
-          <input
-            type="text"
-            name="colour"
-            placeholder="Colour"
-            value={formState.colour}
-            onChange={handleChange}
-          />
+          <input type="text" name="estimatedAge" placeholder="Estimated Age" value={formState.estimatedAge} onChange={handleChange} />
+          <input type="date" name="birthDate" value={formState.birthDate} onChange={handleChange} />
+          <input type="text" name="breed" placeholder="Breed" value={formState.breed} onChange={handleChange} />
+          <input type="text" name="colour" placeholder="Colour" value={formState.colour} onChange={handleChange} />
 
           <select name="gender" value={formState.gender} onChange={handleChange}>
             <option value="">Select Gender</option>
@@ -280,10 +327,15 @@ const ManageAdoptions = () =>
 
           {/* Boolean Felder mit Yes/No Anzeige */}
           {["vaccinated", "chipped", "neutered"].map((field) => (
-            <select key={field} name={field} value={formState[field]} onChange={handleChange}>
-              <option value="true">Yes</option>
-              <option value="false">No</option>
-            </select>
+            <div key={field} className="boolean-field">
+              <label htmlFor={field} className="boolean-label">
+                {field.charAt(0).toUpperCase() + field.slice(1)}:
+              </label>
+              <select id={field} name={field} value={formState[field]} onChange={handleChange}>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+              </select>
+            </div>
           ))}
 
           <button type="submit" className="save" disabled={loading}>
@@ -299,18 +351,52 @@ const ManageAdoptions = () =>
           <div className="list">
             {adoptionPosts.map((item) => (
               <div key={item._id} className="card">
-                {/* Zeigt bevorzugt `imageUrls`, dann `images` */}
-                <img src={item.imageUrls?.[0] || item.imageUrls?.[0] || "https://scontent-fra3-1.cdninstagram.com/v/t51.29350-15/472409551_559710720370933_6488124466399928968_n.heic?stp=dst-jpg_e35_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xNDQweDE0NDAuc2RyLmYyOTM1MC5kZWZhdWx0X2ltYWdlIn0&_nc_ht=scontent-fra3-1.cdninstagram.com&_nc_cat=101&_nc_oc=Q6cZ2AHzJBKxWSqoWgktjjJHj7lXDNRyd-MTZYniyPYor9c1xOMd_tzoc_ypr73KmKcDD20&_nc_ohc=GKoWWnGE4LgQ7kNvgH6CzCI&_nc_gid=753d2114c0c44fa68ba65385621411be&edm=AP4sbd4BAAAA&ccb=7-5&ig_cache_key=MzUzNzMwOTAxMzc3MjY4OTY0Nw%3D%3D.3-ccb7-5&oh=00_AYFFwo9_Xx8BenTRQGYEfKPvRULHlcBkqv10dxMBy6qE5g&oe=67CFE618&_nc_sid=7a9f4b"}
-                  alt={item.title} className="image" />
 
-                <h3>{item.title}</h3>
-                <Markdown>{item.description}</Markdown>
+                {/* Bevorzugt imageUrls (externe Bilder), dann imageUploads (lokale Bilder), sonst Standardbild */}
+                <img
+                  src={
+                    item.imageUrls?.length > 0 ? item.imageUrls[0] :
+                      item.imageUploads?.length > 0 ? `${API_BASE_URL.replace('/api', '')}${item.imageUploads[0]}` :
+                        "/src/assets/img/default.png"
+                  }
+                  alt={item.title || "Adoption Image"}
+                  className="image"
+                  onError={(e) => { e.target.src = "/src/assets/img/default.png"; }}
+                />
+
+                <h3>{item.title || "Untitled"}</h3>
+                <Markdown>{item.description || "No description available."}</Markdown>
+                <button onClick={() => handleEdit(item)}>Edit</button>
+                <button onClick={() => handleDelete(item._id)}>Delete</button>
+                <p>Estimated Age: {item.estimatedAge || "Unknown"}</p>
+                <p>Birth Date: {item.birthDate ? new Date(item.birthDate).toLocaleDateString() : "Unknown"}</p>
+                <p>Breed: {item.breed || "Unknown"}</p>
+                <p>Colour: {item.colour || "Unknown"}</p>
+                <p>Gender: {item.gender || "Unknown"}</p>
+
+                <p>Special Features:</p>
+                {item.specialFeatures && Object.keys(item.specialFeatures).length > 0 ? (
+                  <ul>
+                    {Object.entries(item.specialFeatures).map(([key, value]) => (
+                      <li key={key}>
+                        <strong>{key}:</strong> {value}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>No special features listed.</p>
+                )}
+
+                <p>Created At: {item.createdAt ? new Date(item.createdAt).toLocaleString() : "Unknown"}</p>
+                <p>Updated At: {item.updatedAt ? new Date(item.updatedAt).toLocaleString() : "Unknown"}</p>
+
                 <p>Vaccinated: {item.vaccinated ? "Yes" : "No"}</p>
                 <p>Chipped: {item.chipped ? "Yes" : "No"}</p>
                 <p>Neutered: {item.neutered ? "Yes" : "No"}</p>
               </div>
             ))}
           </div>
+
         )}
       </div>
     </>

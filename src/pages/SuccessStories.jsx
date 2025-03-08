@@ -1,254 +1,69 @@
-import React, { useState } from "react";
-import "../assets/css/pages/SuccessStory.css";
+import React from "react";
+import "../assets/css/pages/Page.css";
 
-// Generate random width and height for images
-const getRandomSize = () => {
-  const randomWidth = Math.floor(Math.random() * (400 - 150 + 1)) + 150;
-  const randomHeight = Math.floor(Math.random() * (400 - 150 + 1)) + 150;
-  return `https://picsum.photos/${randomWidth}/${randomHeight}`;
-};
-
-// Static success stories with details
-const successStories = [
+const stories = [
   {
     id: 1,
-    image: getRandomSize(),
-    title: "Bella's New Home",
-    description:
-      "Bella found a loving family after being rescued. She now enjoys daily walks and cuddles! Her new owners love her and can't imagine life without her.",
-    size: "collage-0",
+    name: "Olivia and Benny",
+    image: "benny.jpg",
+    story:
+      "Olivia met Benny, a shy Beagle rescued from neglect. With patience, she gained his trust, and now they enjoy hiking adventures together!",
   },
   {
     id: 2,
-    image: getRandomSize(),
-    title: "Max’s Second Chance",
-    description:
-      "After months in the shelter, Max finally met his perfect owner. Now they are inseparable, going on adventures together every day.",
-    size: "collage-1",
+    name: "Marcus and Jasper",
+    image: "jasper.jpg",
+    story:
+      "Marcus wasn't a 'cat person' until he met Jasper, a stray black cat. Now, Jasper is his best reading companion, always curled up in his lap.",
   },
   {
     id: 3,
-    image: getRandomSize(),
-    title: "Luna’s Happy Ending",
-    description:
-      "Luna was adopted by a family with kids who adore her. She now plays in the backyard every day, enjoying the love and care of her new home.",
-    size: "collage-2",
+    name: "Aisha and Daisy",
+    image: "daisy.jpg",
+    story:
+      "Aisha adopted Daisy, a once-abandoned rabbit. With love and care, Daisy became a playful companion who follows Aisha around the house.",
   },
   {
     id: 4,
-    image: getRandomSize(),
-    title: "Rocky's Transformation",
-    description:
-      "From a shy rescue to a confident, happy dog, Rocky’s journey is truly inspiring! His new family takes him on hikes and gives him all the attention he deserves.",
-    size: "collage-3",
+    name: "Tom and Charlie",
+    image: "charlie.jpg",
+    story:
+      "Tom found an unexpected friend in Charlie, a parrot who loves to talk! Now, they have endless conversations and lots of fun together.",
   },
   {
     id: 5,
-    image: getRandomSize(),
-    title: "Milo’s Forever Home",
-    description:
-      "Milo was found as a stray, but now he sleeps in a warm bed with his new owner. His life has changed completely, and he couldn't be happier.",
-    size: "collage-4",
+    name: "Emily and Shadow",
+    image: "shadow.jpg",
+    story:
+      "Emily gave Shadow, a 10-year-old Labrador mix, a loving home in his senior years. They enjoy peaceful walks and cozy couch cuddles.",
   },
   {
     id: 6,
-    image: getRandomSize(),
-    title: "Daisy’s New Beginning",
-    description:
-      "Daisy overcame a tough start in life and is now a joyful, energetic dog with a caring family. Her story is one of resilience and love.",
-    size: "collage-5",
-  },
-  {
-    id: 1,
-    image: getRandomSize(),
-    title: "Bella's New Home",
-    description:
-      "Bella found a loving family after being rescued. She now enjoys daily walks and cuddles! Her new owners love her and can't imagine life without her.",
-    size: "collage-0",
-  },
-  {
-    id: 2,
-    image: getRandomSize(),
-    title: "Max’s Second Chance",
-    description:
-      "After months in the shelter, Max finally met his perfect owner. Now they are inseparable, going on adventures together every day.",
-    size: "collage-1",
-  },
-  {
-    id: 3,
-    image: getRandomSize(),
-    title: "Luna’s Happy Ending",
-    description:
-      "Luna was adopted by a family with kids who adore her. She now plays in the backyard every day, enjoying the love and care of her new home.",
-    size: "collage-2",
-  },
-  {
-    id: 4,
-    image: getRandomSize(),
-    title: "Rocky's Transformation",
-    description:
-      "From a shy rescue to a confident, happy dog, Rocky’s journey is truly inspiring! His new family takes him on hikes and gives him all the attention he deserves.",
-    size: "collage-3",
-  },
-  {
-    id: 5,
-    image: getRandomSize(),
-    title: "Milo’s Forever Home",
-    description:
-      "Milo was found as a stray, but now he sleeps in a warm bed with his new owner. His life has changed completely, and he couldn't be happier.",
-    size: "collage-4",
-  },
-  {
-    id: 6,
-    image: getRandomSize(),
-    title: "Daisy’s New Beginning",
-    description:
-      "Daisy overcame a tough start in life and is now a joyful, energetic dog with a caring family. Her story is one of resilience and love.",
-    size: "collage-5",
-  },
-  {
-    id: 1,
-    image: getRandomSize(),
-    title: "Bella's New Home",
-    description:
-      "Bella found a loving family after being rescued. She now enjoys daily walks and cuddles! Her new owners love her and can't imagine life without her.",
-    size: "collage-0",
-  },
-  {
-    id: 2,
-    image: getRandomSize(),
-    title: "Max’s Second Chance",
-    description:
-      "After months in the shelter, Max finally met his perfect owner. Now they are inseparable, going on adventures together every day.",
-    size: "collage-1",
-  },
-  {
-    id: 3,
-    image: getRandomSize(),
-    title: "Luna’s Happy Ending",
-    description:
-      "Luna was adopted by a family with kids who adore her. She now plays in the backyard every day, enjoying the love and care of her new home.",
-    size: "collage-2",
-  },
-  {
-    id: 4,
-    image: getRandomSize(),
-    title: "Rocky's Transformation",
-    description:
-      "From a shy rescue to a confident, happy dog, Rocky’s journey is truly inspiring! His new family takes him on hikes and gives him all the attention he deserves.",
-    size: "collage-3",
-  },
-  {
-    id: 5,
-    image: getRandomSize(),
-    title: "Milo’s Forever Home",
-    description:
-      "Milo was found as a stray, but now he sleeps in a warm bed with his new owner. His life has changed completely, and he couldn't be happier.",
-    size: "collage-4",
-  },
-  {
-    id: 6,
-    image: getRandomSize(),
-    title: "Daisy’s New Beginning",
-    description:
-      "Daisy overcame a tough start in life and is now a joyful, energetic dog with a caring family. Her story is one of resilience and love.",
-    size: "collage-5",
-  },
-  {
-    id: 1,
-    image: getRandomSize(),
-    title: "Bella's New Home",
-    description:
-      "Bella found a loving family after being rescued. She now enjoys daily walks and cuddles! Her new owners love her and can't imagine life without her.",
-    size: "collage-0",
-  },
-  {
-    id: 2,
-    image: getRandomSize(),
-    title: "Max’s Second Chance",
-    description:
-      "After months in the shelter, Max finally met his perfect owner. Now they are inseparable, going on adventures together every day.",
-    size: "collage-1",
-  },
-  {
-    id: 3,
-    image: getRandomSize(),
-    title: "Luna’s Happy Ending",
-    description:
-      "Luna was adopted by a family with kids who adore her. She now plays in the backyard every day, enjoying the love and care of her new home.",
-    size: "collage-2",
-  },
-  {
-    id: 4,
-    image: getRandomSize(),
-    title: "Rocky's Transformation",
-    description:
-      "From a shy rescue to a confident, happy dog, Rocky’s journey is truly inspiring! His new family takes him on hikes and gives him all the attention he deserves.",
-    size: "collage-3",
-  },
-  {
-    id: 5,
-    image: getRandomSize(),
-    title: "Milo’s Forever Home",
-    description:
-      "Milo was found as a stray, but now he sleeps in a warm bed with his new owner. His life has changed completely, and he couldn't be happier.",
-    size: "collage-4",
-  },
-  {
-    id: 6,
-    image: getRandomSize(),
-    title: "Daisy’s New Beginning",
-    description:
-      "Daisy overcame a tough start in life and is now a joyful, energetic dog with a caring family. Her story is one of resilience and love.",
-    size: "collage-5",
+    name: "Noah and Luna",
+    image: "luna.jpg",
+    story:
+      "Noah helped Luna, a rescued horse, regain her strength. Now, she gallops freely and has found a new life full of joy and care.",
   },
 ];
 
-const SuccessStory = () => {
-  const [selectedStory, setSelectedStory] = useState(null);
-
+const SuccessStories = () => {
   return (
-    <div className="success-story-container">
-      {!selectedStory ? (
-        <>
-          <h1 className="story-title">Success Stories</h1>
-          <div className="story-collage">
-            {successStories.map((story) => (
-              <div
-                key={story.id}
-                className={`story-collage-card ${story.size}`}
-                onClick={() => setSelectedStory(story)}
-              >
-                <img src={story.image} alt={story.title} />
-                <div className="story-overlay">
-                  <h2>{story.title}</h2>
-                </div>
-              </div>
-            ))}
+    <div className="stories-container">
+      <h2>Success Stories</h2>
+      <p>Meet the amazing animals who found their forever homes!</p>
+      <div className="stories-grid">
+        {stories.map(({ id, name, image, story }) => (
+          <div key={id} className="story-card">
+            <img src={image} alt={name} className="story-image" />
+            <div className="story-content">
+              <h3>{name}</h3>
+              <p>{story}</p>
+            </div>
           </div>
-        </>
-      ) : (
-        // Detail Page View
-        <div className="story-detail">
-          <button
-            className="back-button"
-            onClick={() => setSelectedStory(null)}
-          >
-            ← Back to Stories
-          </button>
-          <img
-            src={selectedStory.image}
-            alt={selectedStory.title}
-            className="story-detail-image"
-          />
-          <div className="story-detail-content">
-            <h2>{selectedStory.title}</h2>
-            <p>{selectedStory.description}</p>
-          </div>
-        </div>
-      )}
+        ))}
+      </div>
     </div>
   );
 };
 
-export default SuccessStory;
+export default SuccessStories;

@@ -11,9 +11,11 @@ const api = axios.create({
 
 //* Interceptor für Authentifizierung
 api.interceptors.request.use(
-  (config) => {
+  (config) =>
+  {
     const token = localStorage.getItem("token");
-    if (token) {
+    if (token)
+    {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
@@ -22,13 +24,17 @@ api.interceptors.request.use(
 );
 
 //* Request-Handler mit Unterstützung für Datei-Uploads (`imageUploads`)
-const handleRequest = async (request, isFileUpload = false) => {
-  try {
+const handleRequest = async (request, isFileUpload = false) =>
+{
+  try
+  {
     const response = await request();
     return response.data;
-  } catch (error) {
+  } catch (error)
+  {
     console.error("API Fehler:", error.response?.data || error.message);
-    if (error.response?.status === 401) {
+    if (error.response?.status === 401)
+    {
       logoutUser();
     }
     throw error;
@@ -36,27 +42,24 @@ const handleRequest = async (request, isFileUpload = false) => {
 };
 
 //* Automatische Erkennung von Datei-Uploads
-const preparePayload = (data) => {
-  if (data.imageUploads && data.imageUploads.length > 0) {
+const preparePayload = (data) =>
+{
+  if (data.imageUploads && data.imageUploads.length > 0)
+  {
     const formData = new FormData();
-
-    // **Bilder hinzufügen**
     data.imageUploads.forEach((file) => formData.append("imageUploads", file));
 
-    // **Restliche Daten als JSON**
-    formData.append(
-      "data",
-      JSON.stringify({ ...data, imageUploads: undefined })
-    );
+    //? Restliche Daten als JSON
+    formData.append("data", JSON.stringify({ ...data, imageUploads: undefined }));
 
     return { payload: formData, isFileUpload: true };
   }
-
   return { payload: data, isFileUpload: false };
 };
 
-//* 🔐 Authentifizierung & Login Services
-export const loginUser = async (email, password) => {
+//* Authentifizierung & Login Services
+export const loginUser = async (email, password) =>
+{
   const data = await handleRequest(() =>
     api.post("/auth/login", { email, password })
   );
@@ -65,20 +68,23 @@ export const loginUser = async (email, password) => {
   return data;
 };
 
-export const logoutUser = () => {
+export const logoutUser = () =>
+{
   localStorage.removeItem("token");
   localStorage.removeItem("isAdmin");
 };
 
 export const isAuthenticated = () => !!localStorage.getItem("token");
-
 export const isAdmin = () => localStorage.getItem("isAdmin") === "true";
 
-//* 📸 Generische Funktion für Datei-Uploads
-const postWithFile = async (url, data) => {
+//* Generische Funktion für Datei-Uploads
+const postWithFile = async (url, data, method = "POST") => {
   const { payload, isFileUpload } = preparePayload(data);
   return handleRequest(() =>
-    api.post(url, payload, {
+    api({
+      method: method, // Automatisch Post || Put
+      url,
+      data: payload,
       headers: isFileUpload ? { "Content-Type": "multipart/form-data" } : {},
     })
   );
@@ -89,16 +95,16 @@ export const newsService = {
   create: (data) => postWithFile("/news", data),
   getAll: () => handleRequest(() => api.get("/news")),
   getById: (id) => handleRequest(() => api.get(`/news/${id}`)),
-  update: (id, data) => postWithFile(`/news/${id}`, data),
+  update: (id, data) => postWithFile(`/news/${id}`, data, "PUT"),
   delete: (id) => handleRequest(() => api.delete(`/news/${id}`)),
 };
 
 //* 🐾 Adoption Services (Jetzt mit Datei-Upload)
 export const adoptionService = {
-  create: (data) => handleRequest(() => api.post("/adoption", data)),
+  create: (data) => postWithFile("/adoption", data),
   getAll: () => handleRequest(() => api.get("/adoption")),
   getById: (id) => handleRequest(() => api.get(`/adoption/${id}`)),
-  update: (id, data) => postWithFile(`/adoption/${id}`, data),
+  update: (id, data) => postWithFile(`/adoption/${id}`, data, "PUT"),
   delete: (id) => handleRequest(() => api.delete(`/adoption/${id}`)),
 };
 
@@ -107,7 +113,7 @@ export const eventService = {
   create: (data) => postWithFile("/events", data),
   getAll: () => handleRequest(() => api.get("/events")),
   getById: (id) => handleRequest(() => api.get(`/events/${id}`)),
-  update: (id, data) => postWithFile(`/events/${id}`, data),
+  update: (id, data) => postWithFile(`/events/${id}`, data, "PUT"),
   delete: (id) => handleRequest(() => api.delete(`/events/${id}`)),
 };
 
@@ -116,7 +122,7 @@ export const missingService = {
   create: (data) => postWithFile("/missing", data),
   getAll: () => handleRequest(() => api.get("/missing")),
   getById: (id) => handleRequest(() => api.get(`/missing/${id}`)),
-  update: (id, data) => postWithFile(`/missing/${id}`, data),
+  update: (id, data) => postWithFile(`/missing/${id}`, data, "PUT"),
   delete: (id) => handleRequest(() => api.delete(`/missing/${id}`)),
 };
 
@@ -129,6 +135,7 @@ export const userService = {
   delete: (id) => handleRequest(() => api.delete(`/users/${id}`)),
 };
 
+//* 📖 Story Services (Admin-only, kein Datei-Upload nötig)
 export const storyService = {
   create: (data) => handleRequest(() => api.post("/story", data)),
   getAll: () => handleRequest(() => api.get("/story")),
@@ -138,12 +145,13 @@ export const storyService = {
 };
 
 export const uploadService = {
-  uploadImages: (files) => {
+  uploadImages: (files) =>
+  {
     const formData = new FormData();
     files.forEach((file) => formData.append("imageUploads", file));
 
     return handleRequest(() =>
-      api.post("/api/upload", formData, {
+      api.post("/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       })
     );

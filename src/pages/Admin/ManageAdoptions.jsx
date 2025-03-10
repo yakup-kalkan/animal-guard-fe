@@ -5,6 +5,7 @@ import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useDropzone } from "react-dropzone";
 import axios from "axios";
+import moment from "moment-timezone";
 import "../../assets/css/pages/Admin.css";
 
 const specialFeatureSuggestions = [
@@ -19,7 +20,8 @@ const specialFeatureSuggestions = [
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-const ManageAdoptions = () => {
+const ManageAdoptions = () =>
+{
   const { toaster } = useContext(ToasterContext);
   const [adoptionPosts, setAdoptionPosts] = useState([]);
   const [formState, setFormState] = useState({
@@ -40,24 +42,32 @@ const ManageAdoptions = () => {
   const [editId, setEditId] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     fetchAdoptionPosts();
   }, []);
 
-  const fetchAdoptionPosts = async () => {
+  const fetchAdoptionPosts = async () =>
+  {
     setLoading(true);
-    try {
+    try
+    {
       const allPosts = await adoptionService.getAll();
       setAdoptionPosts(allPosts);
-    } catch (error) {
+    }
+    catch (error)
+    {
       toaster.error("An error occurred while fetching adoption posts!");
       console.error(error);
-    } finally {
+    }
+    finally
+    {
       setLoading(false);
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e) =>
+  {
     const { name, type, checked, value } = e.target;
     setFormState((prev) => ({
       ...prev,
@@ -66,14 +76,16 @@ const ManageAdoptions = () => {
   };
 
   //* Drag & Drop für lokale Bilder (`imageUploads`)
-  const handleImageUpload = useCallback((acceptedFiles) => {
+  const handleImageUpload = useCallback((acceptedFiles) =>
+  {
     const validImages = acceptedFiles.filter(
       (file) =>
         file.type.startsWith("image/") &&
         /\.(jpg|jpeg|png|gif|webp)$/i.test(file.name)
     );
 
-    if (validImages.length !== acceptedFiles.length) {
+    if (validImages.length !== acceptedFiles.length)
+    {
       toaster.error("Invalid file type detected! Please upload only images.");
     }
 
@@ -84,7 +96,8 @@ const ManageAdoptions = () => {
   }, []);
 
   //* Externe Bild-URLs (`imageUrls`) hinzufügen
-  const handleImageUrlAdd = () => {
+  const handleImageUrlAdd = () =>
+  {
     setFormState((prev) => ({
       ...prev,
       imageUrls: [...prev.imageUrls, ""],
@@ -92,8 +105,10 @@ const ManageAdoptions = () => {
   };
 
   //* Bild-URL aktualisieren
-  const handleImageUrlChange = (index, value) => {
-    setFormState((prev) => {
+  const handleImageUrlChange = (index, value) =>
+  {
+    setFormState((prev) =>
+    {
       if (prev.imageUrls[index] === value) return prev;
       const updatedImageUrls = [...prev.imageUrls];
       updatedImageUrls[index] = value;
@@ -113,7 +128,8 @@ const ManageAdoptions = () => {
   });
 
   //* Special Features
-  const handleSpecialFeatureChange = (index, field, value) => {
+  const handleSpecialFeatureChange = (index, field, value) =>
+  {
     const updatedFeatures = [...formState.specialFeatures];
     updatedFeatures[index][field] = value;
     setFormState((prev) => ({
@@ -122,14 +138,16 @@ const ManageAdoptions = () => {
     }));
   };
 
-  const addSpecialFeature = () => {
+  const addSpecialFeature = () =>
+  {
     setFormState((prev) => ({
       ...prev,
       specialFeatures: [...prev.specialFeatures, { key: "", value: "" }],
     }));
   };
 
-  const removeSpecialFeature = (index) => {
+  const removeSpecialFeature = (index) =>
+  {
     const updatedFeatures = [...formState.specialFeatures];
     updatedFeatures.splice(index, 1);
     setFormState((prev) => ({
@@ -138,75 +156,132 @@ const ManageAdoptions = () => {
     }));
   };
 
+  const removeImageUpload = (index) =>
+  {
+    setFormState((prev) => ({
+      ...prev,
+      imageUploads: prev.imageUploads.filter((_, i) => i !== index),
+    }));
+  };
+
+  const removeImageUrl = (index) =>
+  {
+    setFormState((prev) => ({
+      ...prev,
+      imageUrls: prev.imageUrls.filter((_, i) => i !== index),
+    }));
+  };
+
   //* Formular abschicken
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e) =>
+  {
     e.preventDefault();
     setLoading(true);
 
-    try {
+    try
+    {
       let uploadedImages = [];
 
-      if (formState.imageUploads.length > 0) {
-        const formData = new FormData();
-        formState.imageUploads.forEach((file) =>
-          formData.append("imageUploads", file)
-        );
+      // 🛠 Falls neue Bilder hochgeladen wurden, erst hochladen
+      if (formState.imageUploads.length > 0)
+      {
+        const newFiles = formState.imageUploads.filter((file) => !file.isUploaded);
 
-        const response = await axios.post(`${API_BASE_URL}/upload`, formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
+        if (newFiles.length > 0)
+        {
+          const formData = new FormData();
+          newFiles.forEach((file) => formData.append("imageUploads", file));
 
-        uploadedImages = response.data;
+          const response = await axios.post(`${API_BASE_URL}/upload`, formData, {
+            headers: { "Content-Type": "multipart/form-data" },
+          });
+
+          uploadedImages = response.data;
+        }
       }
+
+      //? Erhalte existierende Bilder, die nicht gelöscht wurden
+      const existingImages = formState.imageUploads
+        .filter((file) => file.isUploaded)
+        .map((file) => file.url.replace(API_BASE_URL.replace('/api', ''), ''));
 
       const adoptionData = {
         ...formState,
-        imageUploads: uploadedImages,
+        birthDate: formState.birthDate ? new Date(formState.birthDate).toISOString() : null, //? ISO-Format für Backend
+        imageUploads: [...existingImages, ...uploadedImages], //? Nur die relevanten Bilder speichern
         specialFeatures: Object.fromEntries(
           formState.specialFeatures.map(({ key, value }) => [key, value])
         ),
       };
 
-      if (editId) {
+      if (editId)
+      {
         await adoptionService.update(editId, adoptionData);
         toaster.success("Adoption post updated successfully!");
-      } else {
+      } else
+      {
         await adoptionService.create(adoptionData);
         toaster.success("Adoption post added successfully!");
       }
 
       resetForm();
       fetchAdoptionPosts();
-    } catch (error) {
+    } 
+    catch (error)
+    {
       toaster.error("An error occurred while saving the adoption post!");
       console.error(error);
-    } finally {
+    } 
+    finally
+    {
       setLoading(false);
     }
   };
 
   //* Adoptionseintrag bearbeiten
-  const handleEdit = (post) => {
-    setFormState(post);
+  const handleEdit = (post) =>
+  {
+    setFormState({
+      ...post,
+      birthDate: post.birthDate ? moment(post.birthDate).format("YYYY-MM-DD") : "", //? Korrigiertes Format für das Input-Feld
+      specialFeatures: post.specialFeatures
+        ? Object.entries(post.specialFeatures).map(([key, value]) => ({ key, value }))
+        : [],
+      imageUploads: post.imageUploads.map((path) => ({
+        url: `${API_BASE_URL.replace('/api', '')}${path}`,
+        isUploaded: true, //? Erkennungsmerkmal für existierende Bilder
+      })),
+      imageUrls: post.imageUrls || [],
+    });
+
     setEditId(post._id);
   };
 
+
+
   //* Adoptionseintrag löschen
-  const handleDelete = async (id) => {
+  const handleDelete = async (id) =>
+  {
     setLoading(true);
-    try {
+    try
+    {
       await adoptionService.delete(id);
       toaster.success("Adoption post deleted successfully!");
       fetchAdoptionPosts();
-    } catch (error) {
+    }
+    catch (error)
+    {
       toaster.error("An error occurred while deleting the adoption post!");
       console.error(error);
-    } finally {
+    }
+    finally
+    {
       setLoading(false);
     }
   };
 
-  const resetForm = () => {
+  const resetForm = () =>
+  {
     setFormState({
       title: "",
       description: "",
@@ -231,24 +306,9 @@ const ManageAdoptions = () => {
         <h2>Manage Adoption Posts</h2>
         {loading && <p>Loading...</p>}
         <form onSubmit={handleSubmit} className="form">
-          <input
-            type="text"
-            name="title"
-            placeholder="Title"
-            value={formState.title}
-            onChange={handleChange}
-            required
-          />
-          <textarea
-            name="description"
-            placeholder="Description (Markdown supported)"
-            value={formState.description}
-            onChange={handleChange}
-            required
-          />
-          <Markdown remarkPlugins={[remarkGfm]}>
-            {formState.description}
-          </Markdown>
+          <input type="text" name="title" placeholder="Title" value={formState.title} onChange={handleChange} required />
+          <textarea name="description" placeholder="Description (Markdown supported)" value={formState.description} onChange={handleChange} required />
+          <Markdown remarkPlugins={[remarkGfm]}>{formState.description}</Markdown>
 
           {/* Drag & Drop für lokale Bilder */}
           <div {...getRootProps()} className="dropzone">
@@ -259,11 +319,13 @@ const ManageAdoptions = () => {
           {/* Vorschau hochgeladener Bilder */}
           <div className="image-preview">
             {formState.imageUploads.map((file, index) => (
-              <div key={index} className="image-item">
+              <div key={index} className="image-url-input">
                 <img
-                  src={URL.createObjectURL(file)}
+                  src={file.isUploaded ? file.url : URL.createObjectURL(file)}
                   alt={`Uploaded ${index}`}
+                  onError={(e) => (e.target.src = "/src/assets/img/default.png")}
                 />
+                <button type="button" className="remove-image" onClick={() => removeImageUpload(index)}>❌</button>
               </div>
             ))}
           </div>
@@ -275,17 +337,11 @@ const ManageAdoptions = () => {
 
           {formState.imageUrls.map((url, index) => (
             <div key={index} className="image-url-input">
-              <input
-                type="text"
-                placeholder="Enter image URL"
-                value={url}
-                onChange={(e) => handleImageUrlChange(index, e.target.value)}
-              />
-              {url && (
-                <div className="image-url-preview">
-                  <img src={url} alt={`URL ${index}`} />
-                </div>
-              )}
+              <input type="text" value={url} onChange={(e) => handleImageUrlChange(index, e.target.value)} />
+              <div className="image-url-preview">
+                <img src={url} alt={`URL ${index}`} />
+                <button type="button" className="remove-image" onClick={() => removeImageUrl(index)}>❌</button>
+              </div>
             </div>
           ))}
 
@@ -332,30 +388,9 @@ const ManageAdoptions = () => {
             {formState.specialFeatures.map((feature, index) => (
               <div key={index} className="feature-item">
                 <h4>Special Feature {index + 1}</h4>
-                <input
-                  type="text"
-                  placeholder="Feature Name"
-                  value={feature.key}
-                  onChange={(e) =>
-                    handleSpecialFeatureChange(index, "key", e.target.value)
-                  }
-                  list="featureSuggestions"
-                />
-                <input
-                  type="text"
-                  placeholder="Description"
-                  value={feature.value}
-                  onChange={(e) =>
-                    handleSpecialFeatureChange(index, "value", e.target.value)
-                  }
-                />
-                <button
-                  type="button"
-                  className="remove-url"
-                  onClick={() => removeSpecialFeature(index)}
-                >
-                  ✖
-                </button>
+                <input type="text" placeholder="Feature Name" value={feature.key} onChange={(e) => handleSpecialFeatureChange(index, "key", e.target.value) } list="featureSuggestions"/>
+                <input type="text" placeholder="Description" value={feature.value} onChange={(e) => handleSpecialFeatureChange(index, "value", e.target.value) }/>
+                <button type="button" className="remove-url" onClick={() => removeSpecialFeature(index)}>✖</button>
               </div>
             ))}
             <datalist id="featureSuggestions">
@@ -363,23 +398,12 @@ const ManageAdoptions = () => {
                 <option key={i} value={suggestion} />
               ))}
             </datalist>
-            <button
-              type="button"
-              className="add-feature"
-              onClick={addSpecialFeature}
-            >
-              + Add Feature
-            </button>
+            <button type="button" className="add-feature" onClick={addSpecialFeature}>+ Add Feature</button>
           </div>
 
           {/* Boolean Felder mit Yes/No Anzeige */}
           {["vaccinated", "chipped", "neutered"].map((field) => (
-            <select
-              key={field}
-              name={field}
-              value={formState[field]}
-              onChange={handleChange}
-            >
+            <select key={field} name={field} value={formState[field]} onChange={handleChange}>
               <option value="true">Yes</option>
               <option value="false">No</option>
             </select>
@@ -398,19 +422,45 @@ const ManageAdoptions = () => {
           <div className="list">
             {adoptionPosts.map((item) => (
               <div key={item._id} className="card">
-                {/* Zeigt bevorzugt `imageUrls`, dann `images` */}
+
+                {/* Bevorzugt imageUrls (externe Bilder), dann imageUploads (lokale Bilder), sonst Standardbild */}
                 <img
                   src={
-                    item.imageUrls?.[0] ||
-                    item.imageUrls?.[0] ||
-                    "https://scontent-fra3-1.cdninstagram.com/v/t51.29350-15/472409551_559710720370933_6488124466399928968_n.heic?stp=dst-jpg_e35_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xNDQweDE0NDAuc2RyLmYyOTM1MC5kZWZhdWx0X2ltYWdlIn0&_nc_ht=scontent-fra3-1.cdninstagram.com&_nc_cat=101&_nc_oc=Q6cZ2AHzJBKxWSqoWgktjjJHj7lXDNRyd-MTZYniyPYor9c1xOMd_tzoc_ypr73KmKcDD20&_nc_ohc=GKoWWnGE4LgQ7kNvgH6CzCI&_nc_gid=753d2114c0c44fa68ba65385621411be&edm=AP4sbd4BAAAA&ccb=7-5&ig_cache_key=MzUzNzMwOTAxMzc3MjY4OTY0Nw%3D%3D.3-ccb7-5&oh=00_AYFFwo9_Xx8BenTRQGYEfKPvRULHlcBkqv10dxMBy6qE5g&oe=67CFE618&_nc_sid=7a9f4b"
+                    item.imageUrls?.length > 0 ? item.imageUrls[0] :
+                      item.imageUploads?.length > 0 ? `${API_BASE_URL.replace('/api', '')}${item.imageUploads[0]}` :
+                        "/src/assets/img/default.png"
                   }
-                  alt={item.title}
+                  alt={item.title || "Adoption Image"}
                   className="image"
+                  onError={(e) => { e.target.src = "/src/assets/img/default.png"; }}
                 />
 
-                <h3>{item.title}</h3>
-                <Markdown>{item.description}</Markdown>
+                <h3>{item.title || "Untitled"}</h3>
+                <Markdown>{item.description || "No description available."}</Markdown>
+                <button onClick={() => handleEdit(item)}>Edit</button>
+                <button onClick={() => handleDelete(item._id)}>Delete</button>
+                <p>Estimated Age: {item.estimatedAge || "Unknown"}</p>
+                <p>Birth Date: {item.birthDate ? moment(item.birthDate).format("DD.MM.YYYY") : "Unknown"}</p>
+                <p>Breed: {item.breed || "Unknown"}</p>
+                <p>Colour: {item.colour || "Unknown"}</p>
+                <p>Gender: {item.gender || "Unknown"}</p>
+
+                <p>Special Features:</p>
+                {item.specialFeatures && Object.keys(item.specialFeatures).length > 0 ? (
+                  <ul>
+                    {Object.entries(item.specialFeatures).map(([key, value]) => (
+                      <li key={key}>
+                        <strong>{key}:</strong> {value}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>No special features listed.</p>
+                )}
+
+                <p>Created At: {item.createdAt ? new Date(item.createdAt).toLocaleString() : "Unknown"}</p>
+                <p>Updated At: {item.updatedAt ? new Date(item.updatedAt).toLocaleString() : "Unknown"}</p>
+
                 <p>Vaccinated: {item.vaccinated ? "Yes" : "No"}</p>
                 <p>Chipped: {item.chipped ? "Yes" : "No"}</p>
                 <p>Neutered: {item.neutered ? "Yes" : "No"}</p>

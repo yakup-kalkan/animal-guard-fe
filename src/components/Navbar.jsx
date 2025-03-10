@@ -70,7 +70,7 @@ const Navbar = () => {
       </div>
 
       <div className="nav-container">
-        <div className="nav-arrow" style={{ top: `${arrowPosition}px` }}></div>
+        {/* <div className="nav-arrow" style={{ top: `${arrowPosition}px` }}></div> */}
         <ul className="nav-links">
           {[
             { path: "/", label: "home" },

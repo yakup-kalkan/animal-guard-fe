@@ -38,6 +38,11 @@ const AdminLayout = () => {
       title: "Manage Adoptions",
       description: "Approve and review adoptions",
     },
+    {
+      path: "manage-stories",
+      title: "Manage Stories",
+      description: "Approve and review stories",
+    },
   ];
 
   if (user?.isAdmin) {

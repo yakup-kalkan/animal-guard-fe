@@ -98,7 +98,7 @@ const Adoption = () => {
                   >
                     <img
                       src={
-                        adoption.images?.[0] || "/src/assets/img/default.png"
+                        adoption.imageUrls?.[0] || "/src/assets/img/default.png"
                       }
                       alt={adoption.title}
                       className="page-slide-image"
@@ -149,9 +149,10 @@ const Adoption = () => {
                 <img
                   className="page-card-image"
                   src={
-                    Array.isArray(adoption.images) && adoption.images.length > 0
-                      ? adoption.images[0]
-                      : adoption.images || "/src/assets/img/default.png"
+                    Array.isArray(adoption.imageUrls) &&
+                    adoption.imageUrls.length > 0
+                      ? adoption.imageUrls[0]
+                      : adoption.imageUrls || "/src/assets/img/default.png"
                   }
                   alt={adoption.title}
                 />
@@ -173,7 +174,10 @@ const Adoption = () => {
           <div className="page-detail-header">
             <IoArrowBack
               className="page-back-button"
-              onClick={() => setSelectedAdoption(null)}
+              onClick={() => {
+                setSelectedAdoption(null);
+                setThumbsSwiper(null);
+              }}
             />
             <h2>Adoption Details</h2>
           </div>
@@ -183,7 +187,7 @@ const Adoption = () => {
             thumbs={{ swiper: thumbsSwiper }}
             className="page-detail-swiper"
           >
-            {selectedAdoption.images?.map((image, index) => (
+            {selectedAdoption.imageUrls?.map((image, index) => (
               <SwiperSlide key={index}>
                 <img
                   src={image}
@@ -202,7 +206,7 @@ const Adoption = () => {
             watchSlidesProgress
             className="page-thumbnails"
           >
-            {selectedAdoption.images?.map((image, index) => (
+            {selectedAdoption.imageUrls?.map((image, index) => (
               <SwiperSlide key={index}>
                 <img
                   src={image}

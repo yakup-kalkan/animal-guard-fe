@@ -63,7 +63,7 @@ const Events = () => {
                     onClick={() => setSelectedEvent(event)}
                   >
                     <img
-                      src={event.picture || "/src/assets/img/default.png"}
+                      src={event.imageUrls || "/src/assets/img/default.png"}
                       alt={event.title}
                       className="page-slide-image"
                     />
@@ -86,9 +86,9 @@ const Events = () => {
                 onClick={() => setSelectedEvent(event)}
               >
                 <img
-                  className="page-card-image"
-                  src={event.picture || "/src/assets/img/default.png"}
+                  src={event.imageUrls || "/src/assets/img/default.png"}
                   alt={event.title}
+                  className="page-card-image"
                 />
                 <div className="page-card-content">
                   <h2 className="page-card-title">{event.title}</h2>
@@ -116,7 +116,7 @@ const Events = () => {
             <h2>Event Details</h2>
           </div>
           <img
-            src={selectedEvent.picture || "/src/assets/img/default.png"}
+            src={selectedEvent.imageUrls || "/src/assets/img/default.png"}
             alt={selectedEvent.title}
             className="page-detail-image"
           />

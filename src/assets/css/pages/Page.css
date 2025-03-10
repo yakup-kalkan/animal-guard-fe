@@ -111,13 +111,11 @@
 .page-card-image {
   width: 100%;
   height: 200px;
-  object-fit: cover;
 }
 
 .page-card-content {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
   padding: 15px;
 }
 
@@ -131,7 +129,6 @@
 .page-card-description {
   font-size: 1rem;
   color: #666;
-  flex-grow: 1;
 }
 
 .page-card .arrow-icon {
@@ -313,6 +310,61 @@
 .collage-5 {
   grid-column: span 2;
   grid-row: span 3;
+}
+
+.stories-container {
+  text-align: center;
+  padding: 40px;
+  background: #f9f9f9;
+}
+
+h2 {
+  font-size: 2.5rem;
+  color: #333;
+}
+
+p {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.stories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.story-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+}
+
+.story-card:hover {
+  transform: scale(1.05);
+}
+
+.story-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.story-content {
+  padding: 20px;
+}
+
+.story-content h3 {
+  font-size: 1.5rem;
+  color: #444;
+}
+
+.story-content p {
+  font-size: 1rem;
+  color: #555;
 }
 
 /* Responsive */

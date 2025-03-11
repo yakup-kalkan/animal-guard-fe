@@ -78,10 +78,8 @@ const ManageAdoptions = () =>
   //* Drag & Drop für lokale Bilder (`imageUploads`)
   const handleImageUpload = useCallback((acceptedFiles) =>
   {
-    const validImages = acceptedFiles.filter(
-      (file) =>
-        file.type.startsWith("image/") &&
-        /\.(jpg|jpeg|png|gif|webp)$/i.test(file.name)
+    const validImages = acceptedFiles.filter(file =>
+      file.type.startsWith("image/") && /\.(jpg|jpeg|png|gif|webp)$/i.test(file.name)
     );
 
     if (validImages.length !== acceptedFiles.length)
@@ -100,7 +98,7 @@ const ManageAdoptions = () =>
   {
     setFormState((prev) => ({
       ...prev,
-      imageUrls: [...prev.imageUrls, ""],
+      imageUrls: [...prev.imageUrls, "https://"],
     }));
   };
 
@@ -172,7 +170,6 @@ const ManageAdoptions = () =>
     }));
   };
 
-  //* Formular abschicken
   const handleSubmit = async (e) =>
   {
     e.preventDefault();
@@ -180,63 +177,57 @@ const ManageAdoptions = () =>
 
     try
     {
-      let uploadedImages = [];
+      let formData = new FormData();
 
-      // 🛠 Falls neue Bilder hochgeladen wurden, erst hochladen
-      if (formState.imageUploads.length > 0)
-      {
-        const newFiles = formState.imageUploads.filter((file) => !file.isUploaded);
+      const newFiles = formState.imageUploads.filter(file => !file.isUploaded);
+      newFiles.forEach(file => formData.append("imageUploads", file));
 
-        if (newFiles.length > 0)
-        {
-          const formData = new FormData();
-          newFiles.forEach((file) => formData.append("imageUploads", file));
+      const existingImageUrls = formState.imageUploads
+        .filter(file => file.isUploaded)
+        .map(file => file.url);
 
-          const response = await axios.post(`${API_BASE_URL}/upload`, formData, {
-            headers: { "Content-Type": "multipart/form-data" },
-          });
+      const filteredImageUrls = formState.imageUrls.filter(url => url.trim() !== "" && url.startsWith("http"));
 
-          uploadedImages = response.data;
-        }
-      }
-
-      //? Erhalte existierende Bilder, die nicht gelöscht wurden
-      const existingImages = formState.imageUploads
-        .filter((file) => file.isUploaded)
-        .map((file) => file.url.replace(API_BASE_URL.replace('/api', ''), ''));
-
-      const adoptionData = {
-        ...formState,
-        birthDate: formState.birthDate ? new Date(formState.birthDate).toISOString() : null, //? ISO-Format für Backend
-        imageUploads: [...existingImages, ...uploadedImages], //? Nur die relevanten Bilder speichern
+      const jsonData = {
+        title: formState.title,
+        description: formState.description,
+        estimatedAge: formState.estimatedAge,
+        birthDate: formState.birthDate ? new Date(formState.birthDate).toISOString() : null,
+        breed: formState.breed,
+        colour: formState.colour,
+        gender: formState.gender,
+        vaccinated: formState.vaccinated,
+        chipped: formState.chipped,
+        neutered: formState.neutered,
         specialFeatures: Object.fromEntries(
           formState.specialFeatures.map(({ key, value }) => [key, value])
         ),
+        imageUploads: existingImageUrls, // **Bereits hochgeladene Bilder**
+        imageUrls: filteredImageUrls, // **Externe URLs**
       };
 
-      if (editId)
-      {
-        await adoptionService.update(editId, adoptionData);
-        toaster.success("Adoption post updated successfully!");
-      } else
-      {
-        await adoptionService.create(adoptionData);
-        toaster.success("Adoption post added successfully!");
-      }
+      formData.append("data", JSON.stringify(jsonData));
+
+      const response = await axios.post(`${API_BASE_URL}/adoption`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      console.log("Server Response:", response.data);
 
       resetForm();
       fetchAdoptionPosts();
-    } 
+    }
     catch (error)
     {
       toaster.error("An error occurred while saving the adoption post!");
       console.error(error);
-    } 
+    }
     finally
     {
       setLoading(false);
     }
   };
+
 
   //* Adoptionseintrag bearbeiten
   const handleEdit = (post) =>
@@ -321,18 +312,18 @@ const ManageAdoptions = () =>
             {formState.imageUploads.map((file, index) => (
               <div key={index} className="image-url-input">
                 <img
-                  src={file.isUploaded ? file.url : URL.createObjectURL(file)}
+                  src={file.isUploaded ? file.url : file ? URL.createObjectURL(file) : "/src/assets/img/default.png"}
                   alt={`Uploaded ${index}`}
-                  onError={(e) => (e.target.src = "/src/assets/img/default.png")}
+                  onError={(e) => { e.target.src = "/src/assets/img/default.png"; }}
                 />
                 <button type="button" className="remove-image" onClick={() => removeImageUpload(index)}>❌</button>
               </div>
             ))}
           </div>
 
-          {/* **Externe Bild-URLs** */}
+          {/* Externe Bild-URLs */}
           <button type="button" className="add-url" onClick={handleImageUrlAdd}>
-            + Add Image URL
+            + Add Image URL (Max 5 MB)
           </button>
 
           {formState.imageUrls.map((url, index) => (
@@ -345,40 +336,13 @@ const ManageAdoptions = () =>
             </div>
           ))}
 
-          <input
-            type="text"
-            name="estimatedAge"
-            placeholder="Estimated Age"
-            value={formState.estimatedAge}
-            onChange={handleChange}
-          />
-          <input
-            type="date"
-            name="birthDate"
-            value={formState.birthDate}
-            onChange={handleChange}
-          />
-          <input
-            type="text"
-            name="breed"
-            placeholder="Breed"
-            value={formState.breed}
-            onChange={handleChange}
-          />
-          <input
-            type="text"
-            name="colour"
-            placeholder="Colour"
-            value={formState.colour}
-            onChange={handleChange}
-          />
+          <input type="text" name="estimatedAge" placeholder="Estimated Age" value={formState.estimatedAge} onChange={handleChange} />
+          <input type="date" name="birthDate" value={formState.birthDate} onChange={handleChange} />
+          <input type="text" name="breed" placeholder="Breed" value={formState.breed} onChange={handleChange} />
+          <input type="text" name="colour" placeholder="Colour" value={formState.colour} onChange={handleChange} />
 
-          <select
-            name="gender"
-            value={formState.gender}
-            onChange={handleChange}
-          >
-            <option value="">Select Gender</option>
+          <select name="gender" value={formState.gender} onChange={handleChange} >
+            <option value="" disabled>Select Gender</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
           </select>
@@ -388,8 +352,8 @@ const ManageAdoptions = () =>
             {formState.specialFeatures.map((feature, index) => (
               <div key={index} className="feature-item">
                 <h4>Special Feature {index + 1}</h4>
-                <input type="text" placeholder="Feature Name" value={feature.key} onChange={(e) => handleSpecialFeatureChange(index, "key", e.target.value) } list="featureSuggestions"/>
-                <input type="text" placeholder="Description" value={feature.value} onChange={(e) => handleSpecialFeatureChange(index, "value", e.target.value) }/>
+                <input type="text" placeholder="Feature Name" value={feature.key} onChange={(e) => handleSpecialFeatureChange(index, "key", e.target.value)} list="featureSuggestions" />
+                <input type="text" placeholder="Description" value={feature.value} onChange={(e) => handleSpecialFeatureChange(index, "value", e.target.value)} />
                 <button type="button" className="remove-url" onClick={() => removeSpecialFeature(index)}>✖</button>
               </div>
             ))}
@@ -439,13 +403,13 @@ const ManageAdoptions = () =>
                 <Markdown>{item.description || "No description available."}</Markdown>
                 <button onClick={() => handleEdit(item)}>Edit</button>
                 <button onClick={() => handleDelete(item._id)}>Delete</button>
-                <p>Estimated Age: {item.estimatedAge || "Unknown"}</p>
-                <p>Birth Date: {item.birthDate ? moment(item.birthDate).format("DD.MM.YYYY") : "Unknown"}</p>
-                <p>Breed: {item.breed || "Unknown"}</p>
-                <p>Colour: {item.colour || "Unknown"}</p>
-                <p>Gender: {item.gender || "Unknown"}</p>
+                <p><strong>Estimated Age:</strong> {item.estimatedAge || "Unknown"}</p>
+                <p><strong>Birth Date:</strong> {item.birthDate ? moment(item.birthDate).format("DD.MM.YYYY") : "Unknown"}</p>
+                <p><strong>Breed:</strong> {item.breed || "Unknown"}</p>
+                <p><strong>Colour:</strong> {item.colour || "Unknown"}</p>
+                <p><strong>Gender:</strong> {item.gender || "Unknown"}</p>
 
-                <p>Special Features:</p>
+                <p><strong>Special Features:</strong></p>
                 {item.specialFeatures && Object.keys(item.specialFeatures).length > 0 ? (
                   <ul>
                     {Object.entries(item.specialFeatures).map(([key, value]) => (
@@ -455,15 +419,15 @@ const ManageAdoptions = () =>
                     ))}
                   </ul>
                 ) : (
-                  <p>No special features listed.</p>
+                  <p><strong>No special features listed!</strong></p>
                 )}
 
-                <p>Created At: {item.createdAt ? new Date(item.createdAt).toLocaleString() : "Unknown"}</p>
-                <p>Updated At: {item.updatedAt ? new Date(item.updatedAt).toLocaleString() : "Unknown"}</p>
+                <p><strong>Created At:</strong> {item.createdAt ? new Date(item.createdAt).toLocaleString() : "Unknown"}</p>
+                <p><strong>Updated At:</strong> {item.updatedAt ? new Date(item.updatedAt).toLocaleString() : "Unknown"}</p>
 
-                <p>Vaccinated: {item.vaccinated ? "Yes" : "No"}</p>
-                <p>Chipped: {item.chipped ? "Yes" : "No"}</p>
-                <p>Neutered: {item.neutered ? "Yes" : "No"}</p>
+                <p><strong>Vaccinated:</strong> {item.vaccinated ? "Yes" : "No"}</p>
+                <p><strong>Chipped:</strong> {item.chipped ? "Yes" : "No"}</p>
+                <p><strong>Neutered:</strong> {item.neutered ? "Yes" : "No"}</p>
               </div>
             ))}
           </div>

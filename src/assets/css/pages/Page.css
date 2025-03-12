@@ -68,6 +68,10 @@
   box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.2);
 }
 
+.report-lost-pet p {
+  margin-bottom: 10px;
+}
+
 .page-filters {
   text-align: center;
   background: linear-gradient(135deg, #5fa8d3, #1b4965);

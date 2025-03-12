@@ -137,11 +137,11 @@ export const userService = {
 
 //* 📖 Story Services (Admin-only, kein Datei-Upload nötig)
 export const storyService = {
-  create: (data) => handleRequest(() => api.post("/story", data)),
-  getAll: () => handleRequest(() => api.get("/story")),
-  getById: (id) => handleRequest(() => api.get(`/story/${id}`)),
-  update: (id, data) => handleRequest(() => api.put(`/story/${id}`, data)),
-  delete: (id) => handleRequest(() => api.delete(`/story/${id}`)),
+  create: (data) => handleRequest(() => api.post("/stories", data)),
+  getAll: () => handleRequest(() => api.get("/stories")),
+  getById: (id) => handleRequest(() => api.get(`/stories/${id}`)),
+  update: (id, data) => handleRequest(() => api.put(`/stories/${id}`, data)),
+  delete: (id) => handleRequest(() => api.delete(`/stories/${id}`)),
 };
 
 export const uploadService = {

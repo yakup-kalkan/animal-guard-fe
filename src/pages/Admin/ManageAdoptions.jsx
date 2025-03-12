@@ -401,8 +401,7 @@ const ManageAdoptions = () =>
 
                 <h3>{item.title || "Untitled"}</h3>
                 <Markdown>{item.description || "No description available."}</Markdown>
-                <button onClick={() => handleEdit(item)}>Edit</button>
-                <button onClick={() => handleDelete(item._id)}>Delete</button>
+
                 <p><strong>Estimated Age:</strong> {item.estimatedAge || "Unknown"}</p>
                 <p><strong>Birth Date:</strong> {item.birthDate ? moment(item.birthDate).format("DD.MM.YYYY") : "Unknown"}</p>
                 <p><strong>Breed:</strong> {item.breed || "Unknown"}</p>
@@ -428,6 +427,12 @@ const ManageAdoptions = () =>
                 <p><strong>Vaccinated:</strong> {item.vaccinated ? "Yes" : "No"}</p>
                 <p><strong>Chipped:</strong> {item.chipped ? "Yes" : "No"}</p>
                 <p><strong>Neutered:</strong> {item.neutered ? "Yes" : "No"}</p>
+
+                <div className="actions">
+                  <button className="edit" onClick={() => handleEdit(item)}>Edit</button>
+                  <button className="delete" onClick={() => handleDelete(item._id)}>Delete</button>
+                </div>
+                
               </div>
             ))}
           </div>

@@ -32,7 +32,13 @@
 .slide-title,
 .slide-description {
   color: white;
-  text-align: left;;
+  text-align: left;
+}
+
+.lost-pets-title,
+.lost-pets-description {
+  color: white;
+  text-align: center;
 }
 
 .page-slide-image {

@@ -13,8 +13,8 @@ const ReportLostPet = () =>
 {
   return (
     <section className="report-lost-pet">
-      <h2>Report a Lost Pet</h2>
-      <p>If you have lost a pet, submit a report to help find them!</p>
+      <h2 className="lost-pets-title">Report a Lost Pet</h2>
+      <p className="lost-pets-description">If you have lost a pet, submit a report to help find them!</p>
       <button className="btn">Report Now</button>
     </section>
   );

@@ -1,0 +1,22 @@
+services:
+  animal-guard-fe:
+    build: .
+    image: thyrail/animal-guard-fe:latest
+    container_name: animal-guard-fe
+    restart: always
+    ports:
+      - "5173:80"
+    environment:
+      - NODE_ENV=production
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.animal-guard-fe.rule=Host(`${ANIMAL_GUARD_DOMAIN}`)"
+      - "traefik.http.routers.animal-guard-fe.entrypoints=websecure"
+      - "traefik.http.routers.animal-guard-fe.tls.certresolver=le"
+      - "traefik.http.services.animal-guard-fe.loadbalancer.server.port=80"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true

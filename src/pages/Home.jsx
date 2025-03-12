@@ -16,28 +16,28 @@ const HeroSlider = () => {
   const slides = [
     {
       image:
-        "/src/assets/img/Home/A-playful-cat-and-dog-sitting-together-on-a-cozy-sofa-looking-at-the-camera.jpg",
+        "/img/Home/A-playful-cat-and-dog-sitting-together-on-a-cozy-sofa-looking-at-the-camera.jpg",
       text: t("home", "hero_slide_1"),
     },
     {
-      image: "/src/assets/img/Home/Cat-and-dog-wallpaper-free.jpg",
+      image: "/img/Home/Cat-and-dog-wallpaper-free.jpg",
       text: t("home", "hero_slide_2"),
     },
     {
       image:
-        "/src/assets/img/Home/Cute-cat-and-dog-hd-wallpaper-high-quality.jpg",
+        "/img/Home/Cute-cat-and-dog-hd-wallpaper-high-quality.jpg",
       text: t("home", "hero_slide_3"),
     },
     {
-      image: "/src/assets/img/Home/cute-cat-and-dog-sleep-wallpaper.jpg",
+      image: "/img/Home/cute-cat-and-dog-sleep-wallpaper.jpg",
       text: t("home", "hero_slide_4"),
     },
     {
-      image: "/src/assets/img/Home/Cute-Dog-and-Cat-Wallpaper.jpg",
+      image: "/img/Home/Cute-Dog-and-Cat-Wallpaper.jpg",
       text: t("home", "hero_slide_5"),
     },
     {
-      image: "/src/assets/img/Home/Wallpaper-cute-sweet-girl-cat-and-dog.jpg",
+      image: "/img/Home/Wallpaper-cute-sweet-girl-cat-and-dog.jpg",
       text: t("home", "hero_slide_6"),
     },
   ];
@@ -83,21 +83,21 @@ const ContentSection = () => {
           >
             <SwiperSlide>
               <img
-                src="/src/assets/img/Home/Cat-and-dog-wallpaper-free.jpg"
+                src="/img/Home/Cat-and-dog-wallpaper-free.jpg"
                 alt="Pet 1"
                 className="slide-img"
               />
             </SwiperSlide>
             <SwiperSlide>
               <img
-                src="/src/assets/img/Home/Cute-cat-and-dog-hd-wallpaper-high-quality.jpg"
+                src="/img/Home/Cute-cat-and-dog-hd-wallpaper-high-quality.jpg"
                 alt="Pet 2"
                 className="slide-img"
               />
             </SwiperSlide>
             <SwiperSlide>
               <img
-                src="/src/assets/img/Home/A-playful-cat-and-dog-sitting-together-on-a-cozy-sofa-looking-at-the-camera.jpg"
+                src="/img/Home/A-playful-cat-and-dog-sitting-together-on-a-cozy-sofa-looking-at-the-camera.jpg"
                 alt="Pet 3"
                 className="slide-img"
               />
@@ -105,7 +105,7 @@ const ContentSection = () => {
           </Swiper>
           <video controls autoPlay muted className="content-video">
             <source
-              src="/src/assets/vid/14615296-uhd_3840_2160_50fps.mp4"
+              src="/vid/14615296-uhd_3840_2160_50fps.mp4"
               type="video/mp4"
             />
             Your browser does not support the video tag.
@@ -141,24 +141,24 @@ const Tips = () => {
     {
       title: t("home", "tips_training_title"),
       image:
-        "/src/assets/img/Home/training/male-dog-trainer-outdoors-with-dog-session.jpg",
+        "/img/Home/training/male-dog-trainer-outdoors-with-dog-session.jpg",
       text: t("home", "tips_training_text"),
     },
     {
       title: t("home", "tips_food_title"),
       image:
-        "/src/assets/img/Home/food/healthy-fresh-pet-food-ingredients-dark-surface.jpg",
+        "/img/Home/food/healthy-fresh-pet-food-ingredients-dark-surface.jpg",
       text: t("home", "tips_food_text"),
     },
     {
       title: t("home", "tips_adoption_title"),
       image:
-        "/src/assets/img/Home/adoption-tips/smiley-woman-spending-time-with-cute-rescue-dogs-shelter.jpg",
+        "/img/Home/adoption-tips/smiley-woman-spending-time-with-cute-rescue-dogs-shelter.jpg",
       text: t("home", "tips_adoption_text"),
     },
     {
       title: t("home", "tips_health_title"),
-      image: "/src/assets/img/Home/health/Screenshot 2025-03-04 124036.png",
+      image: "/img/Home/health/Screenshot 2025-03-04 124036.png",
       text: t("home", "tips_health_text"),
     },
   ];

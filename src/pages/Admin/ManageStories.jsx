@@ -9,7 +9,8 @@ import "../../assets/css/pages/Admin.css";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-const ManageStories = () => {
+const ManageStories = () =>
+{
   const { toaster } = useContext(ToasterContext);
   const [stories, setStories] = useState([]);
   const [formState, setFormState] = useState({
@@ -21,36 +22,44 @@ const ManageStories = () => {
   const [editId, setEditId] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     fetchStories();
   }, []);
 
-  const fetchStories = async () => {
+  const fetchStories = async () =>
+  {
     setLoading(true);
-    try {
+    try
+    {
       const allStories = await storyService.getAll();
       setStories(allStories);
-    } catch (error) {
+    } catch (error)
+    {
       toaster.error("An error occurred while fetching stories!");
       console.error(error);
-    } finally {
+    } finally
+    {
       setLoading(false);
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e) =>
+  {
     const { name, value } = e.target;
     setFormState((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleImageUpload = useCallback((acceptedFiles) => {
+  const handleImageUpload = useCallback((acceptedFiles) =>
+  {
     const validImages = acceptedFiles.filter(
       (file) =>
         file.type.startsWith("image/") &&
         /\.(jpg|jpeg|png|gif|webp)$/i.test(file.name)
     );
 
-    if (validImages.length !== acceptedFiles.length) {
+    if (validImages.length !== acceptedFiles.length)
+    {
       toaster.error("Invalid file type detected! Please upload only images.");
     }
 
@@ -60,15 +69,18 @@ const ManageStories = () => {
     }));
   }, []);
 
-  const handleImageUrlAdd = () => {
+  const handleImageUrlAdd = () =>
+  {
     setFormState((prev) => ({
       ...prev,
       imageUrls: [...prev.imageUrls, ""],
     }));
   };
 
-  const handleImageUrlChange = (index, value) => {
-    setFormState((prev) => {
+  const handleImageUrlChange = (index, value) =>
+  {
+    setFormState((prev) =>
+    {
       const updatedImageUrls = [...prev.imageUrls];
       updatedImageUrls[index] = value;
       return { ...prev, imageUrls: updatedImageUrls };
@@ -85,14 +97,17 @@ const ManageStories = () => {
     },
   });
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e) =>
+  {
     e.preventDefault();
     setLoading(true);
 
-    try {
+    try
+    {
       let uploadedImages = [];
 
-      if (formState.imageUploads.length > 0) {
+      if (formState.imageUploads.length > 0)
+      {
         const formData = new FormData();
         formState.imageUploads.forEach((file) =>
           formData.append("imageUploads", file)
@@ -110,44 +125,54 @@ const ManageStories = () => {
         imageUploads: uploadedImages,
       };
 
-      if (editId) {
+      if (editId)
+      {
         await storyService.update(editId, storyData);
         toaster.success("Story updated successfully!");
-      } else {
+      } else
+      {
         await storyService.create(storyData);
         toaster.success("Story added successfully!");
       }
 
       resetForm();
       fetchStories();
-    } catch (error) {
+    } catch (error)
+    {
       toaster.error("An error occurred while saving the story!");
       console.error(error);
-    } finally {
+    } finally
+    {
       setLoading(false);
     }
   };
 
-  const handleEdit = (story) => {
+  const handleEdit = (story) =>
+  {
     setFormState(story);
     setEditId(story._id);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id) =>
+  {
     setLoading(true);
-    try {
+    try
+    {
       await storyService.delete(id);
       toaster.success("Story deleted successfully!");
       fetchStories();
-    } catch (error) {
+    } catch (error)
+    {
       toaster.error("An error occurred while deleting the story!");
       console.error(error);
-    } finally {
+    } finally
+    {
       setLoading(false);
     }
   };
 
-  const resetForm = () => {
+  const resetForm = () =>
+  {
     setFormState({
       title: "",
       description: "",
@@ -208,8 +233,12 @@ const ManageStories = () => {
           <div key={story._id} className="card">
             <h3>{story.title}</h3>
             <Markdown>{story.description}</Markdown>
-            <button onClick={() => handleEdit(story)}>Edit</button>
-            <button onClick={() => handleDelete(story._id)}>Delete</button>
+
+            <div className="action">
+              <button className="edit" onClick={() => handleEdit(story)}>Edit</button>
+              <button className="delete" onClick={() => handleDelete(story._id)}>Delete</button>
+            </div>
+
           </div>
         ))}
       </div>

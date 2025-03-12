@@ -52,7 +52,7 @@ const Events = () => {
               }}
               navigation
               pagination={{ clickable: true }}
-              autoplay={{ delay: 2000, disableOnInteraction: false }}
+              autoplay={{ delay: 6000, disableOnInteraction: false }}
               loop={true}
               className="page-swiper"
             >
@@ -68,8 +68,8 @@ const Events = () => {
                       className="page-slide-image"
                     />
                     <div className="page-slide-content">
-                      <h2>{event.title}</h2>
-                      <p>{event.description.slice(0, 100)}...</p>
+                      <h2 className="slide-title">{event.title}</h2>
+                      <p className="slide-description">{event.description.slice(0, 100)}...</p>
                     </div>
                   </div>
                 </SwiperSlide>

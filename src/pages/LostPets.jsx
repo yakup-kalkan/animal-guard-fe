@@ -9,7 +9,8 @@ import "swiper/css/pagination";
 import "swiper/css/thumbs";
 import "../assets/css/pages/Page.css";
 
-const ReportLostPet = () => {
+const ReportLostPet = () =>
+{
   return (
     <section className="report-lost-pet">
       <h2>Report a Lost Pet</h2>
@@ -19,21 +20,27 @@ const ReportLostPet = () => {
   );
 };
 
-const LostPets = () => {
+const LostPets = () =>
+{
   const [lostPets, setLostPets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedPet, setSelectedPet] = useState(null);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
-  useEffect(() => {
-    const fetchLostPets = async () => {
-      try {
+  useEffect(() =>
+  {
+    const fetchLostPets = async () =>
+    {
+      try
+      {
         const data = await missingService.getAll();
         setLostPets(data);
-      } catch (err) {
+      } catch (err)
+      {
         setError(err.message);
-      } finally {
+      } finally
+      {
         setLoading(false);
       }
     };
@@ -55,7 +62,7 @@ const LostPets = () => {
               slidesPerView={1}
               navigation
               pagination={{ clickable: true }}
-              autoplay={{ delay: 5000, disableOnInteraction: false }}
+              autoplay={{ delay: 6000, disableOnInteraction: false }}
               loop={true}
               className="page-swiper"
             >
@@ -75,8 +82,8 @@ const LostPets = () => {
                       className="page-slide-image"
                     />
                     <div className="page-slide-content">
-                      <h2>{pet.name}</h2>
-                      <p>{pet.description.slice(0, 100)}...</p>
+                      <h2 className="slide-title">{pet.title}</h2>
+                      <p className="slide-description">{pet.description.slice(0, 100)}...</p>
                     </div>
                   </div>
                 </SwiperSlide>
@@ -122,7 +129,8 @@ const LostPets = () => {
           <div className="page-detail-header">
             <IoArrowBack
               className="page-back-button"
-              onClick={() => {
+              onClick={() =>
+              {
                 setSelectedPet(null);
                 setThumbsSwiper(null);
               }}

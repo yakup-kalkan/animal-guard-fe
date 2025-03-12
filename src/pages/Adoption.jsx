@@ -36,7 +36,6 @@ const Adoption = () =>
         setAdoptions(data);
         setFilteredAdoptions(data);
 
-        // 🟢 **Setze die Filter-Werte basierend auf den vorhandenen Adoptionen**
         setTypes([...new Set(data.map((a) => a.type || "Unknown"))]);
         setBreeds([...new Set(data.map((a) => a.breed || "Unknown"))]);
         setGenders([...new Set(data.map((a) => a.gender || "Unknown"))]);
@@ -79,7 +78,7 @@ const Adoption = () =>
               }}
               navigation
               pagination={{ clickable: true }}
-              autoplay={{ delay: 5000, disableOnInteraction: false }}
+              autoplay={{ delay: 6000, disableOnInteraction: false }}
               loop={true}
               className="page-swiper"
             >
@@ -95,8 +94,8 @@ const Adoption = () =>
                       className="page-slide-image"
                     />
                     <div className="page-slide-content">
-                      <h2>{adoption.title}</h2>
-                      <p>{adoption.description.slice(0, 100)}...</p>
+                      <h2 className="slide-title">{adoption.title}</h2>
+                      <p className="slide-description">{adoption.description.slice(0, 100)}...</p>
                     </div>
                   </div>
                 </SwiperSlide>
